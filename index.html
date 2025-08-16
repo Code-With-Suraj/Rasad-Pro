@@ -1,510 +1,584 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rasad Pro - Business Management Infographic</title>
+    <title>Rasad Pro - Aapke Business ka Management Solution</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
+        /* Animation for elements fading in on scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #EB6841, #CC333F);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .stat-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-left: 5px solid #EB6841;
-        }
-        .selling-point-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-bottom: 5px solid #00A0B0;
-        }
-        .flow-step {
-            background: white;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            flex: 1;
-            min-width: 150px;
-        }
-        .flow-arrow {
-            font-size: 2rem;
-            color: #EB6841;
-            align-self: center;
-        }
-        .comparison-table td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .comparison-table .feature-col {
-            font-weight: 600;
-        }
-        .comparison-table .rasad-pro-col {
-            background-color: #fef3f2;
-            color: #CC333F;
-        }
-        .comparison-table .traditional-col {
-            background-color: #f3f4f6;
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="text-slate-800">
 
-    <main class="container mx-auto p-4 md:p-8 max-w-7xl">
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold text-slate-900">
+                <span class="text-orange-500">Rasad</span> Pro 🥕
+            </a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#features" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Features</a>
+                <a href="#who-is-it-for" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Kiske Liye?</a>
+                <a href="#comparison" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Tulna</a>
+                <a href="#about" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Humare Baare Mein</a>
+                <a href="#pricing" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Plans</a>
+                <a href="#contact" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Sampark</a>
+            </nav>
+            <a href="#pricing" class="hidden md:inline-block bg-orange-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-orange-600 transition-all duration-300 shadow-sm hover:shadow-md">Shuru Karein</a>
+            <button id="mobile-menu-button" class="md:hidden text-slate-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#features" class="block py-2 text-slate-600 hover:text-orange-500">Features</a>
+            <a href="#who-is-it-for" class="block py-2 text-slate-600 hover:text-orange-500">Kiske Liye?</a>
+            <a href="#comparison" class="block py-2 text-slate-600 hover:text-orange-500">Tulna</a>
+            <a href="#about" class="block py-2 text-slate-600 hover:text-orange-500">Humare Baare Mein</a>
+            <a href="#pricing" class="block py-2 text-slate-600 hover:text-orange-500">Plans</a>
+            <a href="#contact" class="block py-2 text-slate-600 hover:text-orange-500">Sampark</a>
+            <a href="#pricing" class="block mt-2 text-center bg-orange-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-orange-600">Shuru Karein</a>
+        </div>
+    </header>
 
-        <header class="text-center py-12">
-            <h1 class="text-4xl md:text-6xl font-bold gradient-text">Rasad Pro</h1>
-            <p class="mt-4 text-xl md:text-2xl text-gray-600">Business Ki Sahuliyat, Aapke Haath Mein.</p>
-            <p class="mt-2 text-md text-gray-500">India mein Sabji, Phal, Dairy aur Bakery business ke liye modern digital solution.</p>
-        </header>
-
-        <section id="challenge" class="py-12">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800">Kya Manual Management Aapko Dheema Kar Raha Hai?</h2>
-                <p class="mt-2 text-lg text-gray-500">Hath se hisab-kitab rakhne mein samay lagta hai aur galtiyan bhi hoti hain.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="stat-card">
-                    <div class="text-5xl font-bold text-[#CC333F]">8+</div>
-                    <p class="mt-2 text-gray-600">Hafte Mein Barbaad Hue Ghante Manual Hisab-Kitab Mein</p>
-                </div>
-                <div class="stat-card">
-                    <div class="text-5xl font-bold text-[#CC333F]">25%</div>
-                    <p class="mt-2 text-gray-600">Galtiyon Mein Badhotri Jisse Nuksan Hota Hai</p>
-                </div>
-                <div class="stat-card">
-                    <div class="text-5xl font-bold text-[#CC333F]">30%</div>
-                    <p class="mt-2 text-gray-600">Payment Wasooli Mein Deri, Kharab Tracking Ke Karan</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="solution" class="py-12 bg-white rounded-xl shadow-lg">
-            <div class="text-center mb-12 px-6">
-                <h2 class="text-3xl font-bold text-gray-800">Samadhan: Aapka Digital Munshi</h2>
-                <p class="mt-2 text-lg text-gray-500">Rasad Pro aapke poore business ke kaam ko automate karta hai, jisse yeh saral aur tez ho jaata hai.</p>
-            </div>
-            <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 px-6 flex-wrap">
-                <div class="flow-step">
-                    <div class="text-3xl mb-2">📊</div>
-                    <h3 class="font-bold">Sales Record Karein</h3>
-                    <p class="text-sm text-gray-500">Roz ki bikri aur khareedari aasani se enter karein.</p>
-                </div>
-                <div class="flow-arrow hidden md:block">→</div>
-                <div class="flow-step">
-                    <div class="text-3xl mb-2">🧾</div>
-                    <h3 class="font-bold">Invoice Banayein</h3>
-                    <p class="text-sm text-gray-500">Professional GST bill seconds mein banayein.</p>
-                </div>
-                <div class="flow-arrow hidden md:block">→</div>
-                <div class="flow-step">
-                    <div class="text-3xl mb-2">📚</div>
-                    <h3 class="font-bold">Khata Update Karein</h3>
-                    <p class="text-sm text-gray-500">Ledger apne aap maintain hota hai.</p>
-                </div>
-                <div class="flow-arrow hidden md:block">→</div>
-                <div class="flow-step">
-                    <div class="text-3xl mb-2">📈</div>
-                    <h3 class="font-bold">Reports Dekhein</h3>
-                    <p class="text-sm text-gray-500">Apne business ki sehat turant jaanein.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="features" class="py-12">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800">Aapke Business Ke Liye Bane Features</h2>
-                <p class="mt-2 text-lg text-gray-500">Har woh cheez jo aapko chahiye, aur kuch bhi faltu nahi.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-[#00A0B0] mb-4">⏱️ Fatafat GST Invoicing</h3>
-                    <p class="text-gray-600 mb-4">Ek minute se bhi kam mein GST-compliant invoice banayein. System state ke hisab se IGST aur CGST/SGST apne aap calculate kar leta hai, jisse aapka samay bachta hai.</p>
-                    <div class="chart-container h-64 max-h-250px">
-                        <canvas id="invoicingTimeChart"></canvas>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-[#00A0B0] mb-4">📖 Automatic Ledger Management</h3>
-                    <p class="text-gray-600 mb-4">Manual khata maintain karne ko alvida kahein. Har transaction se customer ya supplier ka ledger apne aap update ho jaata hai, jisse aapko udhari ka real-time view milta hai.</p>
-                    <div class="chart-container h-64 max-h-250px">
-                        <canvas id="ledgerAccuracyChart"></canvas>
-                    </div>
-                </div>
-                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-[#00A0B0] mb-4">💰 Aasan Payment Tracking</h3>
-                    <p class="text-gray-600 mb-4">Cash, UPI, Bank Transfer, ya kisi bhi tarike se payment record karein. Turant dekhein kisne payment di aur kisne nahi, jisse aapka cash flow behtar hota hai.</p>
-                     <div class="text-center p-8">
-                        <span class="text-6xl">💸</span>
-                        <p class="text-2xl font-bold mt-4 text-gray-700">Ab Koi Payment Miss Nahi Hogi</p>
-                        <p class="text-gray-500 mt-2">Saaf, saral aur asardar tracking.</p>
-                    </div>
-                </div>
-                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-[#00A0B0] mb-4">📝 Saral Debit/Credit Notes</h3>
-                    <p class="text-gray-600 mb-4">Maal wapsi ya daam mein badlav manage karna ab sirdard nahi. Aasani se debit ya credit notes banayein aur track karein, jisse aapke accounts hamesha aasan rahenge.</p>
-                    <div class="text-center p-8">
-                        <span class="text-6xl">🔄</span>
-                        <p class="text-2xl font-bold mt-4 text-gray-700">Adjustments Hue Aasan</p>
-                        <p class="text-gray-500 mt-2">Apne accounts ko hamesha sahi rakhein.</p>
+    <main>
+        <!-- Home (Hero Section) -->
+        <section id="home" class="pt-32 pb-20 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-4xl mx-auto">
+                    <h1 id="home-headline" class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-4 leading-tight"></h1>
+                    <p id="home-subheadline" class="text-lg md:text-xl text-slate-600 mb-8"></p>
+                    <div class="flex justify-center items-center gap-4">
+                        <a href="#pricing" class="bg-orange-500 text-white font-semibold px-8 py-3 rounded-lg hover:bg-orange-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">Plans Dekhein</a>
+                        <a href="#features" class="bg-slate-200 text-slate-800 font-semibold px-8 py-3 rounded-lg hover:bg-slate-300 transition-all duration-300">Aur Jaanein</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="real-world-points" class="py-12">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800">Asli Dhande Ki Asli Baatein</h2>
-                <p class="mt-2 text-lg text-gray-500">Yeh software aapke roz ke kaam ko kaise aasan banata hai.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="selling-point-card">
-                    <div class="text-5xl">📱</div>
-                    <h3 class="text-xl font-bold mt-4 mb-2">WhatsApp par Professional Banein</h3>
-                    <p class="text-gray-600">Sadharan text ke bajaye, customer ko professional GST bill PDF bhejein. Isse aapki alag pehchan banti hai.</p>
+        <!-- Features (What I Do) -->
+        <section id="features" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Aapke Business Ko Manage Karne Ke Liye Sab Kuch</h2>
+                    <p class="text-lg text-slate-600 mt-2 max-w-2xl mx-auto">Invoice se lekar payment tak, Rasad Pro aapke roz ke kaam ko aasan banata hai taaki aap growth par focus kar sakein.</p>
                 </div>
-                <div class="selling-point-card">
-                    <div class="text-5xl">⏱️</div>
-                    <h3 class="text-xl font-bold mt-4 mb-2">Din Bhar Ka Hisab, Ek Minute Mein</h3>
-                    <p class="text-gray-600">Shaam ko ghanton tak hisab milane ki zaroorat nahi. 'Aaj ka galla kitna hai?' iska jawab hamesha aapke phone mein.</p>
-                </div>
-                <div class="selling-point-card">
-                    <div class="text-5xl">🤝</div>
-                    <h3 class="text-xl font-bold mt-4 mb-2">Udhari Wasooli, Aasani Se</h3>
-                    <p class="text-gray-600">Customer ko unke khate ka saaf-suthra statement bhejein. Hisab mein paardarshita se payment jaldi milti hai.</p>
-                </div>
-                <div class="selling-point-card">
-                    <div class="text-5xl">😊</div>
-                    <h3 class="text-xl font-bold mt-4 mb-2">Tension-Free Hokar Dhanda Karein</h3>
-                    <p class="text-gray-600">Jab hisab-kitab aasan ho, toh aap apna poora dhyan business badhane aur naye customer banane mein laga sakte hain.</p>
+                <div id="features-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Feature cards will be dynamically inserted here -->
                 </div>
             </div>
         </section>
 
-        <section id="impact" class="py-12">
-             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800">"Rasad Pro" Ka Asar</h2>
-                <p class="mt-2 text-lg text-gray-500">Apne business ko ठोस parinamo ke saath badlein.</p>
+        <!-- Who Is It For -->
+        <section id="who-is-it-for" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">India ke Fresh Produce Market ke Dil ke Liye Bana Hai</h2>
+                    <p class="text-lg text-slate-600 mt-2 max-w-3xl mx-auto">Rasad Pro sabzi, phal, dairy, aur bakery items ka kaam karne wale har business ke liye perfect hai.</p>
+                </div>
+                <div id="who-is-it-for-grid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- "Who Is It For" cards will be dynamically inserted here -->
+                </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-center mb-4">Bhaari Samay Ki Bachat</h3>
-                    <p class="text-gray-600 text-center mb-4">Apne business ko badhane par dhyan dein, paperwork par nahi. Rasad Pro administrative kaamo par lagne wala samay kaafi kam kar deta hai.</p>
-                    <div class="chart-container">
-                        <canvas id="timeSavedChart"></canvas>
+        </section>
+        
+        <!-- Comparison Section -->
+        <section id="comparison" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in">
+                    <h2 id="comparison-headline" class="text-3xl md:text-4xl font-bold text-slate-900"></h2>
+                    <p id="comparison-subheadline" class="text-lg text-slate-600 mt-2 max-w-3xl mx-auto"></p>
+                </div>
+                <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden fade-in">
+                    <div id="comparison-table-header" class="grid grid-cols-3 gap-4 p-4 bg-slate-100 font-bold text-slate-600">
+                        <!-- Header content will be dynamically inserted here -->
+                    </div>
+                    <div id="comparison-table-body" class="divide-y divide-slate-200">
+                        <!-- Comparison rows will be dynamically inserted here -->
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-center mb-4">Business Ki Karyakshamta Badhayein</h3>
-                    <p class="text-gray-600 text-center mb-4">Saral operations aur real-time data ke saath, aapka business samay ke saath aur adhik kushal aur munafadayak ban jaata hai.</p>
-                    <div class="chart-container">
-                        <canvas id="efficiencyChart"></canvas>
+            </div>
+        </section>
+
+
+        <!-- Why Different -->
+        <section id="why-different" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Rasad Pro Alag Kyun Hai?</h2>
+                    <p class="text-lg text-slate-600 mt-2 max-w-3xl mx-auto">Hum sirf ek aur software nahi hain. Hum ek dedicated solution hain jo aapki roz ki mushkilon ko samajh kar banaya gaya hai.</p>
+                </div>
+                <div id="why-different-grid" class="space-y-8 max-w-4xl mx-auto">
+                     <!-- "Why Different" points will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Me / My Goal -->
+        <section id="about" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="bg-slate-800 text-white p-8 md:p-12 rounded-2xl max-w-5xl mx-auto fade-in">
+                    <div class="md:flex md:items-center md:gap-12">
+                        <div class="md:w-1/3 text-center mb-8 md:mb-0">
+                            <img src="https://placehold.co/200x200/f97316/ffffff?text=SS" alt="Developer Suraj Singh" class="w-40 h-40 rounded-full mx-auto mb-4 border-4 border-orange-400">
+                            <h3 id="about-name" class="text-2xl font-bold"></h3>
+                            <p id="about-title" class="text-orange-300"></p>
+                        </div>
+                        <div class="md:w-2/3">
+                            <h2 id="about-headline" class="text-3xl font-bold mb-4 text-orange-400"></h2>
+                            <p id="about-bio" class="text-slate-300 leading-relaxed"></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
         
-        <section id="advantage" class="py-12">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800">Rasad Pro Sahi Vikalp Kyun Hai</h2>
-                <p class="mt-2 text-lg text-gray-500">Ek Vyapari ke liye banaya gaya hai, CA ke liye nahi.</p>
-            </div>
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <table class="w-full text-left comparison-table">
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th class="p-4 font-bold">Feature</th>
-                            <th class="p-4 font-bold text-center text-white bg-[#CC333F]">Rasad Pro</th>
-                            <th class="p-4 font-bold text-center">Purane Accounting Software</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="feature-col">Istemal Mein Aasan</td>
-                            <td class="rasad-pro-col text-center">✅ Saral aur Aasan</td>
-                            <td class="traditional-col text-center">❌ Jatil, training chahiye</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-col">Pahunch (Accessibility)</td>
-                            <td class="rasad-pro-col text-center">✅ Web-based, kahin se bhi use karein</td>
-                            <td class="traditional-col text-center">❌ Aksar desktop tak seemit</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-col">Kiske Liye Bana Hai</td>
-                            <td class="rasad-pro-col text-center">✅ Business Maalik</td>
-                            <td class="traditional-col text-center">❌ Accountant</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-col">Mukhya Focus</td>
-                            <td class="rasad-pro-col text-center">✅ Operations aur Billing</td>
-                            <td class="traditional-col text-center">❌ Jatil Accounting Niyam</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-col">Keemat</td>
-                            <td class="rasad-pro-col text-center">✅ Kifayati Subscription</td>
-                            <td class="traditional-col text-center">❌ Mehenga license aur maintenance</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-col">Support</td>
-                            <td class="rasad-pro-col text-center">✅ Seedha aur Tez Developer Support</td>
-                            <td class="traditional-col text-center">❌ Dheema, ticket-based support</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section id="pricing" class="py-12">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800">Saral, Pardarshi Keemat</h2>
-                <p class="mt-2 text-lg text-gray-500">Apne liye sahi plan chunein.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-[#EDC951] text-center">
-                    <h3 class="text-xl font-bold">Freemium</h3>
-                    <p class="text-4xl font-bold my-4">Free</p>
-                    <p class="text-gray-500">3-Din Ka Trial</p>
-                    <p class="mt-4">Shuruaat karne aur iska fayda khud dekhne ke liye perfect.</p>
-                </div>
-                <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-[#EB6841] text-center ring-2 ring-[#EB6841]">
-                     <p class="text-sm font-bold uppercase text-[#EB6841]">Sabse Lokpriya</p>
-                    <h3 class="text-xl font-bold mt-2">3 Mahine Ka Plan</h3>
-                    <p class="text-4xl font-bold my-4">₹1,199</p>
-                    <p class="text-gray-500">3 mahine ke liye</p>
-                    <p class="mt-4">Mausami business ke liye behtareen value jo operations ko optimize karna chahte hain.</p>
-                </div>
-                <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-[#00A0B0] text-center">
-                    <h3 class="text-xl font-bold">Monthly Plan</h3>
-                    <p class="text-4xl font-bold my-4">₹499</p>
-                    <p class="text-gray-500">prati maah</p>
-                    <p class="mt-4">Aapki suvidha ke liye lacheela mahine ka billing.</p>
+        <!-- Satisfaction Guarantee -->
+        <section id="guarantee" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="max-w-3xl mx-auto bg-green-50 p-8 md:p-12 rounded-2xl border border-green-200 fade-in">
+                    <div class="text-center">
+                        <div class="flex justify-center mb-4">
+                            <div class="h-16 w-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3">100% Santushti ki Guarantee</h2>
+                        <p class="text-slate-600 leading-relaxed">
+                           Humein vishwas hai ki aapko yeh application pasand aayegi. Lekin, agar aap pehle 7 dino mein kisi bhi kaaran se poori tarah se santusht nahi hain, toh hum aapka <strong class="text-slate-800">100% poora paisa wapas</strong> kar denge — bina koi sawaal pooche.
+                        </p>
+                        <p class="mt-4 text-lg font-semibold text-slate-700 italic">
+                            Bharosa Rakhiyega!
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <footer class="text-center py-12 border-t mt-12">
-            <h3 class="text-2xl font-bold">Apne Business Ko Aasan Banane Ke Liye Taiyaar Hain?</h3>
-            <p class="mt-2 text-gray-600">Rasad Pro ke saath shuruaat karne ke liye aaj hi sampark karein!</p>
-            <div class="mt-6 text-lg">
-                <p><strong>Developer:</strong> Suraj Singh</p>
-                <p><strong>Phone / WhatsApp:</strong> +91-8851666208</p>
-                <p><strong>Email:</strong> suraj.gasdevelopera@gmail.com</p>
+        <!-- Pricing (My Affordable Plans) -->
+        <section id="pricing" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Har Business ke Liye Kifayti Plans</h2>
+                    <p class="text-lg text-slate-600 mt-2 max-w-2xl mx-auto">Apne liye sahi plan chunein. Saral, paardarshi pricing bina kisi chhupe hue charge ke.</p>
+                </div>
+                <div id="pricing-grid" class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-center">
+                    <!-- Pricing plans will be dynamically inserted here -->
+                </div>
             </div>
-        </footer>
-
+        </section>
     </main>
 
-    <script>
-        const vibrantPalette = {
-            oceanBlue: '#00A0B0',
-            crimsonRed: '#CC333F',
-            sunsetOrange: '#EB6841',
-            goldenYellow: '#EDC951',
-            mutedBrown: '#6A4A3C',
-            lightBlue: 'rgba(0, 160, 176, 0.2)',
-            lightOrange: 'rgba(235, 104, 65, 0.2)',
-        };
+    <!-- Footer (Contact) -->
+    <footer id="contact" class="bg-slate-900 text-slate-300 py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- About Rasad Pro -->
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4"><span class="text-orange-500">Rasad</span> Pro</h3>
+                    <p id="footer-about" class="text-slate-400"></p>
+                </div>
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Sampark Jaankari</h3>
+                    <div id="footer-contact-info" class="space-y-3">
+                        <!-- Contact items will be dynamically inserted here -->
+                    </div>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="hover:text-orange-400 transition-colors">Features</a></li>
+                        <li><a href="#who-is-it-for" class="hover:text-orange-400 transition-colors">Kiske Liye?</a></li>
+                        <li><a href="#comparison" class="hover:text-orange-400 transition-colors">Tulna</a></li>
+                        <li><a href="#about" class="hover:text-orange-400 transition-colors">Humare Baare Mein</a></li>
+                        <li><a href="#pricing" class="hover:text-orange-400 transition-colors">Pricing</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-slate-700 pt-8 text-center text-slate-500">
+                <p id="footer-copyright"></p>
+            </div>
+        </div>
+    </footer>
 
-        function processLabels(labels) {
-            const maxLen = 16;
-            return labels.map(label => {
-                if (label.length <= maxLen) {
-                    return label;
+    <!-- Content JS -->
+    <script>
+        const content = {
+            home: {
+                headline: "Rasad Pro ke Saath Apna Business Aasan Banayein",
+                subheadline: "Sabzi, Phal, Dairy aur Bakery business ke liye complete digital solution. Aasani se Invoices banayein, payments track karein, aur khata maintain karein."
+            },
+            features: [
+                {
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`,
+                    title: "Bina Mehnat ke Invoice Banayein",
+                    description: "Seconds mein professional, GST-compliant invoices banayein. Apni branding ke saath customize karein aur multi-state transactions ke liye tax automatically calculate karein."
+                },
+                {
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>`,
+                    title: "Poora Khata Management",
+                    description: "Har customer aur supplier ka saaf aur sateek Khata banaye rakhein. Bakaaya balance track karein aur transaction history turant dekhein."
+                },
+                {
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>`,
+                    title: "Aasan Payment Tracking",
+                    description: "Kuch hi clicks mein invoices ke against payments record karein. Cash, Bank Transfer, UPI, aur anya payment methods ka support."
+                },
+                {
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1V21c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h7.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z"></path><path d="M15 2v5h5"></path><path d="M10 16s.5-1 2-1 2 1 2 1"></path><path d="M10 12h4"></path></svg>`,
+                    title: "Debit/Credit Note ka System",
+                    description: "Aasani se adjustments, returns, aur discounts manage karein. Clients aur vendors dono ke liye debit aur credit notes banayein aur track karein."
+                },
+                {
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>`,
+                    title: "Business Ki Reports",
+                    description: "Apne business ki performance ki behtareen jaankari paayein. Apni sales, kharch, aur munafa ko samajhkar behtar faisle lein."
+                },
+                {
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+                    title: "Customer aur Supplier Management",
+                    description: "Apne sabhi contacts ek jagah par organize rakhein. Behtar communication aur billing ke liye customer aur supplier dono ki jaankari manage karein."
                 }
-                const words = label.split(' ');
-                const newLabels = [];
-                let currentLine = '';
-                words.forEach(word => {
-                    if ((currentLine + ' ' + word).trim().length > maxLen) {
-                        newLabels.push(currentLine.trim());
-                        currentLine = word;
-                    } else {
-                        currentLine = (currentLine + ' ' + word).trim();
+            ],
+            whoIsItFor: [
+                {
+                    icon: `🚚`,
+                    title: "Wholesalers & Distributors",
+                    description: "Bulk orders manage karein, alag-alag clients ka stock track karein, aur aasani se consolidated invoices banayein."
+                },
+                {
+                    icon: `🏪`,
+                    title: "Retail Dukaan Ke Maalik",
+                    description: "Roz ki sales ko saral banayein, customer ka Khata manage karein, aur apne sabhi transactions ka saaf record ek jagah rakhein."
+                },
+                {
+                    icon: `🥛`,
+                    title: "Dairy & Doodh Suppliers",
+                    description: "Roz ke subscriptions handle karein, delivery routes manage karein, aur apne customers ke liye mahine ke bills aasani se banayein."
+                },
+                {
+                    icon: `🥖`,
+                    title: "Bakeries & Mithaiwale",
+                    description: "Vendors se saaman ki khareed track karein, sales orders manage karein, aur apne roz ke munafey ka saaf hisaab rakhein."
+                }
+            ],
+            comparison: {
+                headline: "Rasad Pro Dusron se Behtar Kyun Hai",
+                subheadline: "Dekhein kaise humara unique approach mehnge software ke mukable behtar value aur control deta hai.",
+                headers: ["Feature", "Dusre Software", "Rasad Pro"],
+                points: [
+                    {
+                        feature: "Data ki Suraksha aur Maalki",
+                        typical: "Aapka data dusri company ke server par store hota hai, jinki privacy policies jatil hoti hain.",
+                        rasad_pro: "Aap apne data ke poore maalik hain. Yeh aapke private Google Sheets mein surakshit rehta hai, aapke control mein."
+                    },
+                    {
+                        feature: "Keemat aur Pricing Model",
+                        typical: "Har user ke liye zyada mahine ki subscription fees, jo tezi se badhti hai.",
+                        rasad_pro: "Ek saral, behad kifayti ek-baar ya samayik shulk. Koi per-user charge nahi, koi chhupe hue kharch nahi."
+                    },
+                    {
+                        feature: "Upyog aur Setup",
+                        typical: "Lamba installation, training, aur integration process ki zaroorat hoti hai.",
+                        rasad_pro: "Zero installation. Agar aapke paas Google account hai, to aap minutes mein shuru kar sakte hain."
+                    },
+                    {
+                        feature: "Badlaav aur Flexibility",
+                        typical: "Sakht software jise aapke workflow ke anusaar badalna mushkil ya mehanga hota hai.",
+                        rasad_pro: "Google Sheets par bana hai, isliye isko badalna aasan hai. Custom badlaav jaldi aur kifayti dhang se kiye ja sakte hain."
                     }
-                });
-                if (currentLine) {
-                    newLabels.push(currentLine.trim());
+                ]
+            },
+            whyDifferent: [
+                {
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`,
+                    title: "Made in India, India ke Liye",
+                    description: "Rasad Pro ko khaas taur par Bhartiya businesses ki zarooraton ke liye banaya gaya hai, jismein poori GST compliance aur 'Khata' jaise sthaaniya shabd shaamil hain."
+                },
+                {
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`,
+                    title: "Istemal Mein Bahut Aasan",
+                    description: "Koi jatil software install karne ki zaroorat nahi. Agar aap spreadsheet istemal kar sakte hain, to aap Rasad Pro bhi istemal kar sakte hain. Humare saral interface se minutes mein shuruaat karein."
+                },
+                {
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`,
+                    title: "Sabke Budget Mein",
+                    description: "Hum maante hain ki powerful software mehanga nahi hona chahiye. Humare flexible plans har business ke budget mein fit hone ke liye design kiye gaye hain, chahe woh chhota ho ya bada."
+                },
+                 {
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+                    title: "Surakshit aur Cloud-Based",
+                    description: "Aapka data aapke apne Google Sheets mein surakshit roop se store hota hai, jise aap kahin se bhi, kisi bhi device par access kar sakte hain. Aapka apne data par poora control hota hai."
                 }
-                return newLabels;
-            });
-        }
-        
-        const tooltipTitleCallback = {
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        title: function(tooltipItems) {
-                            const item = tooltipItems[0];
-                            let label = item.chart.data.labels[item.dataIndex];
-                            if (Array.isArray(label)) {
-                              return label.join(' ');
-                            } else {
-                              return label;
-                            }
-                        }
+            ],
+            about: {
+                name: "Suraj Singh",
+                title: "Full-Stack Google Apps Script Developer",
+                headline: "Mera Maqsad: Bhartiya Businesses ko Technology se Mazboot Banana.",
+                bio: "Main ek passionate Full-Stack Developer hoon jo Google Apps Script mein mahir hai, taaki main Bharat mein chhote aur madhyam aakaar ke businesses ke liye practical aur kifayti solutions bana sakun. Rasad Pro ke saath mera mukhya lakshya ek shaktishaali lekin saral tool pradaan karna hai jo business operations ko digitize aur streamline karta hai, jisse maalik samay bacha sakte hain, galtiyan kam kar sakte hain, aur apne business ko badhane par dhyan de sakte hain."
+            },
+            pricing: [
+                {
+                    plan: "Freemium Plan",
+                    price: "Free",
+                    period: "3-Din ka Trial",
+                    description: "Core features aazmane ke liye perfect.",
+                    features: [
+                        "10 Invoices/Mahina",
+                        "Basic Khata Management",
+                        "Community Support"
+                    ],
+                    cta: "Free Mein Shuru Karein",
+                    highlight: false
+                },
+                {
+                    plan: "Monthly Plan",
+                    price: "₹499",
+                    period: "/mahina",
+                    description: "Niyamit maasik zarooraton wale businesses ke liye aadarsh.",
+                    features: [
+                        "Unlimited Invoices",
+                        "Poora Khata aur Payment Tracking",
+                        "Debit/Credit Note System",
+                        "Email aur WhatsApp Support"
+                    ],
+                    cta: "Monthly Plan Chunein",
+                    highlight: true
+                },
+                {
+                    plan: "3 Mahine ka Plan",
+                    price: "₹1,199",
+                    period: "/3 mahine",
+                    description: "Lambi avadhi ke growth ke liye sabse accha value.",
+                    features: [
+                        "Monthly Plan ke sabhi features",
+                        "Priority Support",
+                        "Naye features ka pehle access"
+                    ],
+                    cta: "3 Mahine ka Plan Chunein",
+                    highlight: false
+                }
+            ],
+            footer: {
+                about: "Business Ki Sahuliyat, Aapke Haath Mein. Bhartiya businesses ke liye complete digital solution.",
+                contact: [
+                    {
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>`,
+                        text: "+91-8851666208"
+                    },
+                    {
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`,
+                        text: "suraj.gasdevelopera@gmail.com"
+                    },
+                     {
+                        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0-6 0z"></path><path d="M17.657 16.657l-1.414-1.414a2 2 0 0 1 0-2.828l2.828-2.828a2 2 0 0 1 2.828 0l1.414 1.414a2 2 0 0 1 0 2.828l-2.828 2.828a2 2 0 0 1-2.828 0z"></path><path d="m2 2 5.07 5.07"></path></svg>`,
+                        text: "Noida Sector - 115, India"
                     }
-                }
+                ],
+                copyright: `© ${new Date().getFullYear()} Rasad Pro. Sarvadhikar Surakshit. Suraj Singh dwara ❤️ se banaya gaya.`
             }
         };
+    </script>
 
-        document.addEventListener('DOMContentLoaded', () => {
+    <!-- Main JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DYNAMIC CONTENT POPULATION ---
             
-            new Chart(document.getElementById('invoicingTimeChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Bachaya Gaya Samay', 'Manual Mehnat'],
-                    datasets: [{
-                        label: 'Invoicing Kushalta',
-                        data: [95, 5],
-                        backgroundColor: [vibrantPalette.oceanBlue, vibrantPalette.lightBlue],
-                        borderColor: ['#ffffff'],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        ...tooltipTitleCallback.plugins,
-                        legend: {
-                            position: 'bottom',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Invoice Banane Ka Samay: Manual vs. Rasad Pro'
-                        }
-                    }
-                }
+            // Home Section
+            document.getElementById('home-headline').textContent = content.home.headline;
+            document.getElementById('home-subheadline').textContent = content.home.subheadline;
+
+            // Features Section
+            const featuresGrid = document.getElementById('features-grid');
+            content.features.forEach(feature => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 fade-in';
+                card.innerHTML = `
+                    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-orange-100 text-orange-500 mb-4">
+                        ${feature.icon}
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">${feature.title}</h3>
+                    <p class="text-slate-600">${feature.description}</p>
+                `;
+                featuresGrid.appendChild(card);
+            });
+            
+            // Who Is It For Section
+            const whoIsItForGrid = document.getElementById('who-is-it-for-grid');
+            content.whoIsItFor.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-slate-50 p-6 rounded-xl text-center fade-in hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border';
+                card.innerHTML = `
+                    <div class="text-5xl mb-4">${item.icon}</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">${item.title}</h3>
+                    <p class="text-slate-600">${item.description}</p>
+                `;
+                whoIsItForGrid.appendChild(card);
             });
 
-            new Chart(document.getElementById('ledgerAccuracyChart'), {
-                type: 'pie',
-                data: {
-                    labels: ['Galti-Mukt Entries', 'Sambhavit Galtiyan'],
-                    datasets: [{
-                        label: 'Ledger Sateekta',
-                        data: [99, 1],
-                        backgroundColor: [vibrantPalette.sunsetOrange, vibrantPalette.lightOrange],
-                        borderColor: ['#ffffff'],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        ...tooltipTitleCallback.plugins,
-                        legend: {
-                            position: 'bottom',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Automated vs. Manual Ledger Sateekta'
-                        }
-                    }
+            // Comparison Section
+            document.getElementById('comparison-headline').textContent = content.comparison.headline;
+            document.getElementById('comparison-subheadline').textContent = content.comparison.subheadline;
+            const comparisonHeader = document.getElementById('comparison-table-header');
+            content.comparison.headers.forEach(header => {
+                const div = document.createElement('div');
+                div.className = 'text-left';
+                if (header === 'Rasad Pro') {
+                    div.innerHTML = `<span class="text-orange-500 font-bold">${header}</span>`;
+                } else {
+                    div.textContent = header;
                 }
+                comparisonHeader.appendChild(div);
+            });
+            const comparisonBody = document.getElementById('comparison-table-body');
+            content.comparison.points.forEach(point => {
+                const row = document.createElement('div');
+                row.className = 'grid grid-cols-3 gap-4 p-4 items-center';
+                row.innerHTML = `
+                    <div class="font-semibold text-slate-800">${point.feature}</div>
+                    <div class="text-slate-600">${point.typical}</div>
+                    <div class="text-slate-800 font-medium">${point.rasad_pro}</div>
+                `;
+                comparisonBody.appendChild(row);
             });
 
-            new Chart(document.getElementById('timeSavedChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['Billing', 'Ledger Update', 'Reporting', 'Payment Tracking'],
-                    datasets: [{
-                        label: 'Manual Kaam (Ghante/Hafte)',
-                        data: [4, 2.5, 1.5, 2],
-                        backgroundColor: vibrantPalette.crimsonRed,
-                        borderRadius: 4
-                    }, {
-                        label: 'Rasad Pro (Ghante/Hafte)',
-                        data: [0.5, 0.2, 0.1, 0.3],
-                        backgroundColor: vibrantPalette.goldenYellow,
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Ghante Prati Hafte'
-                            }
-                        }
-                    },
-                    plugins: {
-                        ...tooltipTitleCallback.plugins,
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
+
+            // Why Different Section
+            const whyDifferentGrid = document.getElementById('why-different-grid');
+            content.whyDifferent.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-xl shadow-md border border-slate-200 flex items-start gap-6 fade-in hover:shadow-lg hover:-translate-y-1 transition-all duration-300';
+                card.innerHTML = `
+                    <div class="flex-shrink-0 text-3xl bg-orange-100 text-orange-500 p-3 rounded-full">
+                        ${item.icon}
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">${item.title}</h3>
+                        <p class="text-slate-600 leading-relaxed">${item.description}</p>
+                    </div>
+                `;
+                whyDifferentGrid.appendChild(card);
             });
 
-            new Chart(document.getElementById('efficiencyChart'), {
-                type: 'line',
-                data: {
-                    labels: ['Mahina 1', 'Mahina 2', 'Mahina 3', 'Mahina 4', 'Mahina 5', 'Mahina 6'],
-                    datasets: [{
-                        label: 'Business Kushalta Index',
-                        data: [50, 65, 75, 82, 88, 95],
-                        borderColor: vibrantPalette.oceanBlue,
-                        backgroundColor: vibrantPalette.lightBlue,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            title: {
-                                display: true,
-                                text: 'Kushalta (%)'
-                            }
-                        }
-                    },
-                    plugins: {
-                        ...tooltipTitleCallback.plugins,
-                        legend: {
-                            display: false
-                        }
-                    }
+            // About Section
+            document.getElementById('about-name').textContent = content.about.name;
+            document.getElementById('about-title').textContent = content.about.title;
+            document.getElementById('about-headline').textContent = content.about.headline;
+            document.getElementById('about-bio').textContent = content.about.bio;
+
+            // Pricing Section
+            const pricingGrid = document.getElementById('pricing-grid');
+            content.pricing.forEach(plan => {
+                const card = document.createElement('div');
+                card.className = `border rounded-xl p-8 fade-in ${plan.highlight ? 'bg-slate-800 text-white border-slate-800 transform lg:scale-105' : 'bg-white'} ${plan.highlight ? '' : 'hover:shadow-lg hover:-translate-y-1 transition-all duration-300'}`;
+                
+                let featuresHtml = '';
+                plan.features.forEach(feature => {
+                    featuresHtml += `
+                        <li class="flex items-center gap-3">
+                            <svg class="${plan.highlight ? 'text-orange-400' : 'text-orange-500'}" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            <span>${feature}</span>
+                        </li>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <h3 class="text-2xl font-bold ${plan.highlight ? '' : 'text-slate-900'}">${plan.plan}</h3>
+                    <p class="mt-2 ${plan.highlight ? 'text-slate-300' : 'text-slate-600'}">${plan.description}</p>
+                    <div class="mt-6 flex items-baseline gap-1">
+                        <span class="text-4xl font-extrabold ${plan.highlight ? '' : 'text-slate-900'}">${plan.price}</span>
+                        <span class="${plan.highlight ? 'text-slate-300' : 'text-slate-600'}">${plan.period}</span>
+                    </div>
+                    <a href="#contact" class="block w-full text-center mt-8 px-6 py-3 rounded-lg font-semibold ${plan.highlight ? 'bg-orange-500 text-white hover:bg-orange-600' : 'bg-orange-100 text-orange-600 hover:bg-orange-200'} transition-colors duration-300">${plan.cta}</a>
+                    <ul class="mt-8 space-y-4 text-left">
+                        ${featuresHtml}
+                    </ul>
+                `;
+                pricingGrid.appendChild(card);
+            });
+
+            // Footer Section
+            document.getElementById('footer-about').textContent = content.footer.about;
+            const contactInfo = document.getElementById('footer-contact-info');
+            content.footer.contact.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-3';
+                div.innerHTML = `
+                    <span class="text-orange-400">${item.icon}</span>
+                    <span>${item.text}</span>
+                `;
+                contactInfo.appendChild(div);
+            });
+            document.getElementById('footer-copyright').textContent = content.footer.copyright;
+
+
+            // --- INTERACTIVITY ---
+
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Header shadow on scroll
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    header.classList.add('py-2');
+                    header.classList.remove('py-4');
+                } else {
+                    header.classList.add('py-4');
+                    header.classList.remove('py-2');
                 }
+            });
+            
+            // Fade-in animations on scroll
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            fadeInElements.forEach(el => {
+                observer.observe(el);
             });
         });
     </script>
