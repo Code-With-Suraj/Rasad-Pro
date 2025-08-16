@@ -42,6 +42,7 @@
                 <a href="#comparison" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Tulna</a>
                 <a href="#about" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Humare Baare Mein</a>
                 <a href="#pricing" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Plans</a>
+                <a href="#affiliate" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Kamayein</a>
                 <a href="#contact" class="text-slate-600 hover:text-orange-500 transition-colors duration-300">Sampark</a>
             </nav>
             <a href="#pricing" class="hidden md:inline-block bg-orange-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-orange-600 transition-all duration-300 shadow-sm hover:shadow-md">Shuru Karein</a>
@@ -58,6 +59,7 @@
             <a href="#comparison" class="block py-2 text-slate-600 hover:text-orange-500">Tulna</a>
             <a href="#about" class="block py-2 text-slate-600 hover:text-orange-500">Humare Baare Mein</a>
             <a href="#pricing" class="block py-2 text-slate-600 hover:text-orange-500">Plans</a>
+             <a href="#affiliate" class="block py-2 text-slate-600 hover:text-orange-500">Kamayein</a>
             <a href="#contact" class="block py-2 text-slate-600 hover:text-orange-500">Sampark</a>
             <a href="#pricing" class="block mt-2 text-center bg-orange-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-orange-600">Shuru Karein</a>
         </div>
@@ -189,6 +191,22 @@
                 </div>
             </div>
         </section>
+
+        <!-- Affiliate Program Section -->
+        <section id="affiliate" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in">
+                    <h2 id="affiliate-headline" class="text-3xl md:text-4xl font-bold text-slate-900"></h2>
+                    <p id="affiliate-subheadline" class="text-lg text-slate-600 mt-2 max-w-3xl mx-auto"></p>
+                </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                    <!-- Affiliate cards will be dynamically inserted here -->
+                </div>
+                 <div class="text-center mt-12 fade-in">
+                    <a href="#contact" class="bg-orange-500 text-white font-semibold px-8 py-3 rounded-lg hover:bg-orange-600 transition-all duration-300 shadow-md hover:shadow-lg">Jaankari ke liye Sampark Karein</a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer (Contact) -->
@@ -216,6 +234,7 @@
                         <li><a href="#comparison" class="hover:text-orange-400 transition-colors">Tulna</a></li>
                         <li><a href="#about" class="hover:text-orange-400 transition-colors">Humare Baare Mein</a></li>
                         <li><a href="#pricing" class="hover:text-orange-400 transition-colors">Pricing</a></li>
+                        <li><a href="#affiliate" class="hover:text-orange-400 transition-colors">Kamayein</a></li>
                     </ul>
                 </div>
             </div>
@@ -346,9 +365,9 @@
                     plan: "Freemium Plan",
                     price: "Free",
                     period: "3-Din ka Trial",
-                    description: "Core features aazmane ke liye perfect.",
+                    description: "3 din ke liye sabhi features ka anubhav lein.",
                     features: [
-                        "10 Invoices/Mahina",
+                        "Sabhi Features ka Full Access",
                         "Basic Khata Management",
                         "Community Support"
                     ],
@@ -383,6 +402,22 @@
                     highlight: false
                 }
             ],
+            affiliate: {
+                headline: "Humare Affiliate Program se Judein aur Kamayein!",
+                subheadline: "Rasad Pro ko apne dosto aur business network mein refer karein aur har safal referral par commission paayein.",
+                cards: [
+                    {
+                        title: "Monthly Plan Referral",
+                        commission: "₹100 Commission",
+                        description: "Jab aapke dwara refer kiya gaya customer Monthly Plan kharidta hai aur kam se kam 7 din tak istemal karta hai."
+                    },
+                    {
+                        title: "3 Mahine ka Plan Referral",
+                        commission: "₹200 Commission",
+                        description: "Jab aapke dwara refer kiya gaya customer 3 Mahine ka Plan kharidta hai aur kam se kam 7 din tak istemal karta hai."
+                    }
+                ]
+            },
             footer: {
                 about: "Business Ki Sahuliyat, Aapke Haath Mein. Bhartiya businesses ke liye complete digital solution.",
                 contact: [
@@ -520,6 +555,21 @@
                     </ul>
                 `;
                 pricingGrid.appendChild(card);
+            });
+            
+            // Affiliate Section
+            document.getElementById('affiliate-headline').textContent = content.affiliate.headline;
+            document.getElementById('affiliate-subheadline').textContent = content.affiliate.subheadline;
+            const affiliateGrid = document.querySelector('#affiliate .grid');
+            content.affiliate.cards.forEach(cardData => {
+                const card = document.createElement('div');
+                card.className = 'bg-slate-50 p-8 rounded-xl border border-slate-200 text-center fade-in';
+                card.innerHTML = `
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">${cardData.title}</h3>
+                    <div class="text-4xl font-extrabold text-orange-500 my-4">${cardData.commission}</div>
+                    <p class="text-slate-600">${cardData.description}</p>
+                `;
+                affiliateGrid.appendChild(card);
             });
 
             // Footer Section
