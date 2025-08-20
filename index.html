@@ -6,8 +6,14 @@
     <title>Rasad Pro - आपके बिज़नेस का डिजिटल समाधान</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Added Chart.js for data visualization -->
+    <!-- Chart.js for data visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom style for the copy notification */
+        #copy-notification {
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
     <script>
         tailwind.config = {
             theme: {
@@ -988,7 +994,7 @@
                                 <div class="text-2xl font-bold text-orange-600 bg-orange-100 p-3 rounded-lg">
                                     surubhai208@okaxis
                                 </div>
-                                <button class="mt-4 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105" onclick="copyUPI()">
+                                <button class="mt-4 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105" onclick="copyUPI(this)">
                                     📋 Copy UPI ID
                                 </button>
                             </div>
@@ -1031,7 +1037,7 @@
                     <div class="bg-white p-4 rounded-lg inline-block shadow-lg">
                         <div class="text-2xl font-bold text-green-600">+91-8851666208</div>
                     </div>
-                    <button class="mt-4 bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105">
+                    <button id="payment-whatsapp-btn" class="mt-4 bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105">
                         WhatsApp पर संपर्क करें
                     </button>
                 </div>
@@ -1166,7 +1172,6 @@
         </div>
     </section>
 
-    <!-- Adding developer introduction section before conclusion -->
     <!-- Developer Section -->
     <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
         <div class="container mx-auto px-4">
@@ -1280,10 +1285,10 @@
                             <div class="bg-white/20 backdrop-blur-sm p-4 rounded-2xl mb-6">
                                 <div class="text-3xl font-bold">+91-8851666208</div>
                             </div>
-                            <button class="bg-white text-green-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-green-50 transition-all transform hover:scale-105 shadow-lg">
+                            <a href="#" id="dev-whatsapp-btn" class="inline-block bg-white text-green-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-green-50 transition-all transform hover:scale-105 shadow-lg">
                                 <span class="mr-2">💬</span>
                                 WhatsApp पर चैट करें
-                            </button>
+                            </a>
                         </div>
 
                         <!-- Email Contact -->
@@ -1297,10 +1302,10 @@
                             <div class="bg-white/20 backdrop-blur-sm p-4 rounded-2xl mb-6">
                                 <div class="text-lg font-semibold break-all">suraj.gasdeveloper@gmail.com</div>
                             </div>
-                            <button class="bg-white text-blue-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg">
+                            <a href="#" id="dev-email-btn" class="inline-block bg-white text-blue-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg">
                                 <span class="mr-2">✉️</span>
                                 ईमेल भेजें
-                            </button>
+                            </a>
                         </div>
                     </div>
 
@@ -1323,7 +1328,7 @@
         </div>
     </section>
 
-    <!-- Updated conclusion section with enhanced styling -->
+    <!-- Conclusion Section -->
     <section class="py-20 bg-gradient-to-br from-secondary to-green-700 text-white">
         <div class="container mx-auto px-4 text-center">
             <div class="max-w-4xl mx-auto">
@@ -1354,7 +1359,7 @@
                         <button class="bg-white text-secondary px-8 py-4 rounded-lg text-xl font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg animate-bounce-slow">
                             🚀 अभी शुरू करें
                         </button>
-                        <button class="bg-yellow-500 text-gray-800 px-8 py-4 rounded-lg text-xl font-bold hover:bg-yellow-400 transition-all transform hover:scale-105 shadow-lg animate-bounce-slow" style="animation-delay: 0.5s;">
+                        <button id="final-contact-btn" class="bg-yellow-500 text-gray-800 px-8 py-4 rounded-lg text-xl font-bold hover:bg-yellow-400 transition-all transform hover:scale-105 shadow-lg animate-bounce-slow" style="animation-delay: 0.5s;">
                             📞 मुझसे संपर्क करें
                         </button>
                     </div>
@@ -1395,171 +1400,173 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
         </svg>
     </button>
+    
+    <!-- Copy Notification -->
+    <div id="copy-notification" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg opacity-0">
+        UPI ID कॉपी हो गया!
+    </div>
+
 
     <script>
+        // --- SMOOTH SCROLL & NAVIGATION ---
         document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('a[href^="#"]');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    // **FIX:** Only prevent default and scroll if href is a valid selector
+                    if (href && href.length > 1) { 
+                        e.preventDefault();
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
                     }
                 });
             });
 
-            const startButtons = document.querySelectorAll('button:contains("अभी शुरू करें")');
+            // "अभी शुरू करें" buttons scroll to pricing
             document.querySelectorAll('button').forEach(button => {
                 if (button.textContent.includes('अभी शुरू करें')) {
                     button.addEventListener('click', function() {
-                        document.getElementById('pricing').scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                        document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
                     });
                 }
             });
+            
+            // --- CONTACT & ACTION BUTTONS ---
+            const phoneNumber = '918851666208';
+            const emailAddress = 'suraj.gasdeveloper@gmail.com';
 
-            document.querySelectorAll('button').forEach(button => {
-                if (button.textContent.includes('मुझसे संपर्क करें') || button.textContent.includes('WhatsApp पर चैट करें')) {
-                    button.addEventListener('click', function() {
-                        window.open('https://wa.me/918851666208?text=नमस्ते! मैं Rasad Pro के बारे में जानना चाहता हूं।', '_blank');
-                    });
-                }
-                
-                if (button.textContent.includes('ईमेल भेजें')) {
-                    button.addEventListener('click', function() {
-                        window.open('mailto:suraj.gasdeveloper@gmail.com?subject=Rasad Pro के बारे में जानकारी&body=नमस्ते सूरज जी,%0D%0A%0D%0Aमैं आपके Rasad Pro के बारे में जानना चाहता हूं।', '_blank');
-                    });
-                }
-            });
+            // General Inquiry WhatsApp Message
+            const generalInquiryMsg = encodeURIComponent(`नमस्ते सूरज जी! 🙏\n\nमैं आपके Rasad Pro बिज़नेस मैनेजमेंट सिस्टम के बारे में जानना चाहता/चाहती हूं।\n\nकृपया मुझे बताएं:\n• यह कैसे काम करता है?\n• मेरे बिज़नेस के लिए कैसे फायदेमंद होगा?\n• फ्री ट्रायल कैसे शुरू करूं?\n\nधन्यवाद!`);
+            
+            // Free Trial WhatsApp Message
+            const freeTrialMsg = encodeURIComponent(`नमस्ते सूरज जी! 🙏\n\nमैं Rasad Pro का 3-दिन का फ्री ट्रायल शुरू करना चाहता/चाहती हूं।\n\nमेरी बिज़नेस की जानकारी:\n• बिज़नेस का नाम: [यहां लिखें]\n• बिज़नेस का प्रकार: [सब्जी/फल, डेयरी, बेकरी, अन्य]\n• फोन नंबर: [आपका नंबर]\n\nकृपया मुझे ट्रायल एक्सेस दें और सेटअप में मदद करें।\n\nधन्यवाद!`);
 
-            document.querySelectorAll('button').forEach(button => {
-                if (button.textContent.includes('अभी ट्रायल शुरू करें')) {
-                    button.addEventListener('click', function() {
-                        window.open('https://wa.me/918851666208?text=नमस्ते! मैं Rasad Pro का 3-दिन का फ्री ट्रायल शुरू करना चाहता हूं।', '_blank');
-                    });
-                }
-                
-                if (button.textContent.includes('अभी खरीदें')) {
-                    const planType = button.closest('.bg-gradient-to-br').querySelector('h3').textContent;
-                    button.addEventListener('click', function() {
-                        document.getElementById('payment-info').scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                        // Highlight the payment section
-                        const paymentSection = document.getElementById('payment-info');
-                        paymentSection.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.5)';
-                        setTimeout(() => {
-                            paymentSection.style.boxShadow = '';
-                        }, 3000);
-                    });
-                }
-            });
+            // Post-Payment WhatsApp Message
+            const postPaymentMsg = encodeURIComponent(`नमस्ते सूरज जी! 🙏\n\nमैंने Rasad Pro के लिए पेमेंट कर दिया है।\n\nपेमेंट का स्क्रीनशॉट इस मैसेज के साथ भेज रहा/रही हूँ। कृपया मेरा सब्सक्रिप्शन एक्टिवेट करें।\n\nधन्यवाद!`);
 
-            document.querySelectorAll('button').forEach(button => {
-                if (button.textContent.includes('WhatsApp पर संपर्क करें')) {
-                    button.addEventListener('click', function() {
-                        window.open('https://wa.me/918851666208?text=नमस्ते! मैंने Rasad Pro के लिए पेमेंट किया है। कृपया मेरा सब्सक्रिप्शन एक्टिवेट करें।', '_blank');
-                    });
-                }
-            });
+            // Professional Email Template
+            const emailSubject = encodeURIComponent('Rasad Pro - बिज़नेस मैनेजमेंट सिस्टम की जानकारी');
+            const emailBody = encodeURIComponent(`प्रिय सूरज जी,\n\nनमस्ते! मैं आपके Rasad Pro बिज़नेस मैनेजमेंट सिस्टम के बारे में विस्तार से जानना चाहता/चाहती हूं।\n\nमेरे बिज़नेस की जानकारी:\n• बिज़नेस का प्रकार: [यहां लिखें - जैसे सब्जी की दुकान, डेयरी, बेकरी आदि]\n• वर्तमान समस्याएं: [जैसे हिसाब-किताब, बिलिंग, स्टॉक मैनेजमेंट]\n\nकृपया मुझे इसकी पूरी जानकारी, प्राइसिंग और फ्री ट्रायल की प्रक्रिया बताएं।\n\nआपका जवाब का इंतजार रहेगा।\n\nधन्यवाद!\n\n[आपका नाम]\n[आपका फोन नंबर]`);
+            
+            // Event Listeners for Contact Buttons in "हमसे संपर्क करें" section
+            const devWhatsappBtn = document.getElementById('dev-whatsapp-btn');
+            if (devWhatsappBtn) {
+                devWhatsappBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default anchor behavior
+                    window.open(`https://wa.me/${phoneNumber}?text=${generalInquiryMsg}`, '_blank');
+                });
+            }
 
-            // Existing ROI Calculator functionality
-            const investmentSlider = document.getElementById('investment');
-            const investmentValue = document.getElementById('investmentValue');
-            const savingsValue = document.getElementById('savingsValue');
-            const roiChart = document.getElementById('roiChart').getContext('2d');
+            const devEmailBtn = document.getElementById('dev-email-btn');
+            if (devEmailBtn) {
+                devEmailBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default anchor behavior
+                    window.location.href = `mailto:${emailAddress}?subject=${emailSubject}&body=${emailBody}`;
+                });
+            }
 
-            let chart = new Chart(roiChart, {
-                type: 'doughnut',
+            // Other contact buttons
+            const finalContactBtn = document.getElementById('final-contact-btn');
+            if (finalContactBtn) {
+                finalContactBtn.addEventListener('click', () => {
+                    window.open(`https://wa.me/${phoneNumber}?text=${generalInquiryMsg}`, '_blank');
+                });
+            }
+
+            const paymentWhatsappBtn = document.getElementById('payment-whatsapp-btn');
+            if (paymentWhatsappBtn) {
+                paymentWhatsappBtn.addEventListener('click', () => {
+                    window.open(`https://wa.me/${phoneNumber}?text=${postPaymentMsg}`, '_blank');
+                });
+            }
+
+            // Event Listeners for Pricing Buttons
+            const freeTrialButton = document.querySelector('.bg-blue-500.hover\\:bg-blue-600');
+            if(freeTrialButton) {
+                freeTrialButton.addEventListener('click', () => window.open(`https://wa.me/${phoneNumber}?text=${freeTrialMsg}`, '_blank'));
+            }
+            
+            // --- SAVINGS CHART ---
+            const ctx = document.getElementById('savingsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
                 data: {
-                    labels: ['बचत', 'निवेश'],
+                    labels: ['मासिक प्लान (3 महीने)', '3-महीने का प्लान'],
                     datasets: [{
-                        data: [0, 5000],
-                        backgroundColor: ['#10B981', '#EF4444'],
-                        borderWidth: 0
+                        label: 'लागत (₹)',
+                        data: [1497, 1199],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.6)',
+                            'rgba(16, 185, 129, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(16, 185, 129, 1)'
+                        ],
+                        borderWidth: 1
                     }]
                 },
                 options: {
-                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value;
+                                }
+                            }
+                        }
+                    },
                     plugins: {
                         legend: {
-                            position: 'bottom'
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `लागत: ₹${context.raw}`;
+                                }
+                            }
                         }
                     }
                 }
             });
 
-            function updateROI() {
-                const investment = parseInt(investmentSlider.value);
-                const monthlySavings = Math.floor(investment * 0.15);
-                const yearlySavings = monthlySavings * 12;
-                
-                investmentValue.textContent = `₹${investment.toLocaleString()}`;
-                savingsValue.textContent = `₹${yearlySavings.toLocaleString()}`;
-                
-                chart.data.datasets[0].data = [yearlySavings, investment];
-                chart.update();
-            }
-
-            investmentSlider.addEventListener('input', updateROI);
-            updateROI();
-
-            // Scroll to top functionality
+            // --- SCROLL TO TOP BUTTON ---
             const scrollToTopBtn = document.getElementById('scrollToTop');
-            
-            window.addEventListener('scroll', function() {
+            window.addEventListener('scroll', () => {
                 if (window.pageYOffset > 300) {
                     scrollToTopBtn.classList.remove('hidden');
                 } else {
                     scrollToTopBtn.classList.add('hidden');
                 }
             });
-
-            scrollToTopBtn.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
 
-        function toggleMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            if (mobileMenu) {
-                mobileMenu.classList.toggle('hidden');
-            }
-        }
-
-        function copyUPI() {
-            const upiId = 'surubhai208@okaxis';
-            navigator.clipboard.writeText(upiId).then(function() {
-                alert('UPI ID कॉपी हो गया! अब आप पेमेंट कर सकते हैं।');
-            }).catch(function() {
-                // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = upiId;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                alert('UPI ID कॉपी हो गया! अब आप पेमेंट कर सकते हैं।');
-            });
-        }
-
-        // Existing FAQ toggle functionality
+        // --- FAQ TOGGLE ---
         function toggleFAQ(index) {
             const content = document.getElementById(`faq-content-${index}`);
             const icon = document.getElementById(`faq-icon-${index}`);
-            
-            if (content.classList.contains('hidden')) {
+            const isHidden = content.classList.contains('hidden');
+
+            // Close all other FAQs
+            document.querySelectorAll('[id^="faq-content-"]').forEach((el, i) => {
+                if (i !== index) {
+                    el.classList.add('hidden');
+                    document.getElementById(`faq-icon-${i}`).style.transform = 'rotate(0deg)';
+                }
+            });
+
+            // Toggle the clicked FAQ
+            if (isHidden) {
                 content.classList.remove('hidden');
                 icon.style.transform = 'rotate(180deg)';
             } else {
@@ -1568,29 +1575,39 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add IDs to sections for navigation
-            const sections = [
-                { selector: 'section:nth-of-type(3)', id: 'features' },
-                { selector: 'section:nth-of-type(4)', id: 'benefits' },
-                { selector: 'section:nth-of-type(7)', id: 'guide' },
-                { selector: 'section:nth-of-type(8)', id: 'pricing' },
-                { selector: 'section:nth-of-type(10)', id: 'faq' }
-            ];
-
-            sections.forEach(section => {
-                const element = document.querySelector(section.selector);
-                if (element && !element.id) {
-                    element.id = section.id;
+        // --- UPI COPY FUNCTIONALITY ---
+        function copyUPI(buttonElement) {
+            const upiId = 'surubhai208@okaxis';
+            navigator.clipboard.writeText(upiId).then(() => {
+                showCopyNotification();
+                buttonElement.innerHTML = '✅ Copied!';
+                setTimeout(() => {
+                    buttonElement.innerHTML = '📋 Copy UPI ID';
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed', err);
+                // Fallback for older browsers
+                try {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = upiId;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showCopyNotification();
+                } catch (fallbackErr) {
+                    console.error('Fallback copy failed', fallbackErr);
                 }
             });
+        }
 
-            // Add payment-info ID to payment section
-            const paymentSection = document.querySelector('section h2:contains("पेमेंट की जानकारी")');
-            if (paymentSection) {
-                paymentSection.closest('section').id = 'payment-info';
-            }
-        });
+        function showCopyNotification() {
+            const notification = document.getElementById('copy-notification');
+            notification.style.opacity = '1';
+            setTimeout(() => {
+                notification.style.opacity = '0';
+            }, 2000);
+        }
     </script>
 </body>
 </html>
