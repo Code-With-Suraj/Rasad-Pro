@@ -10,25 +10,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tiro+Devanagari+Hindi:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Chosen Palette: Modern Slate & Blue -->
+  <!-- Chosen Palette: Midnight Blue & Cyan -->
   <!-- Application Structure Plan: A single-page application with a top navigation bar for smooth scrolling to thematic sections (Home, Why, Features, Audience, Start, Pricing, Contact). The core 'Features' section is detailed with a problem/solution format within a vertical tab interface. A new 'Pricing' section is added to detail subscription plans. This structure provides a comprehensive, user-friendly journey from understanding the software's value to choosing a plan. Scroll-triggered animations enhance the modern feel. -->
   <!-- Visualization & Content Choices: 1. Report Info: Benefits of the software. Goal: Compare 'before' and 'after'. Viz/Presentation: Horizontal Bar Chart. Interaction: Animates on scroll. Justification: Visually quantifies the value proposition. Library/Method: Chart.js (Canvas). 2. Report Info: Core software features. Goal: Organize and detail each feature. Viz/Presentation: Vertical Tabbed Interface with problem/solution blocks. Interaction: Click to switch content. Justification: Organizes complex information cleanly. Library/Method: HTML/CSS/JS. 3. Report Info: Subscription plans. Goal: Present options clearly. Viz/Presentation: 3-column pricing cards and a comparison table. Interaction: Hover effects on cards. Justification: Standard, effective UX pattern for comparing subscription tiers. Library/Method: HTML/Tailwind CSS. -->
   <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
   <style>
     body {
       font-family: 'Inter', 'Tiro Devanagari Hindi', sans-serif;
-      background-color: #f8fafc; /* Slate 50 */
-      color: #475569; /* Slate 600 */
+      background-color: #020617; /* Slate 950 */
+      color: #94a3b8; /* Slate 400 */
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    h1, h2, h3, h4, h5, h6 {
       font-family: 'Tiro Devanagari Hindi', serif;
-      color: #0f172a; /* Slate 900 */
+      color: #f1f5f9; /* Slate 100 */
     }
 
     .nav-link {
@@ -43,7 +38,7 @@
       bottom: -4px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: #0ea5e9; /* Sky 500 */
+      background-color: #22d3ee; /* Cyan 400 */
       transition: width 0.3s ease-in-out;
     }
 
@@ -53,21 +48,24 @@
     }
     
     .nav-link.active, .nav-link:hover {
-        color: #0ea5e9;
+        color: #22d3ee;
     }
 
-    .feature-tab-container {
-      position: relative;
+    .glass-card {
+      background: rgba(30, 41, 59, 0.5); /* Slate 800 with alpha */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(51, 65, 85, 0.7); /* Slate 700 */
     }
 
     .tab-indicator {
       position: absolute;
       left: 0;
-      height: 56px; /* Matches tab height */
+      height: 56px;
       width: 4px;
-      background-color: #0ea5e9;
+      background-color: #22d3ee;
       border-radius: 4px;
-      transition: top 0.3s ease-in-out;
+      transition: top 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     }
 
     .feature-tab {
@@ -75,38 +73,52 @@
     }
 
     .feature-tab.active {
-      background-color: #f1f5f9; /* Slate 100 */
-      color: #0ea5e9;
+      background-color: rgba(51, 65, 85, 0.5); /* Slate 700 with alpha */
+      color: #22d3ee;
     }
 
     .feature-tab:not(.active):hover {
-      background-color: #f8fafc; /* Slate 50 */
+      background-color: rgba(51, 65, 85, 0.2);
     }
-
-    .feature-content {
-      display: none;
-    }
-
+    
+    .feature-content { display: none; }
     .feature-content.active {
       display: block;
       animation: fadeIn 0.6s ease-in-out;
     }
+    
+    .pricing-card-popular {
+        position: relative;
+        overflow: hidden;
+    }
+    .pricing-card-popular::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        border-radius: 1rem;
+        border: 2px solid transparent;
+        background: linear-gradient(120deg, #0ea5e9, #6366f1, #22d3ee) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+        animation: rotate-glow 5s linear infinite;
+    }
+
+    @keyframes rotate-glow {
+        0% { transform: rotate(0deg); opacity: 0.7; }
+        50% { opacity: 1; }
+        100% { transform: rotate(360deg); opacity: 0.7; }
+    }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     .animate-on-scroll {
         opacity: 0;
         transform: translateY(30px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     
     .animate-on-scroll.is-visible {
@@ -115,40 +127,34 @@
     }
     
     .start-step-line {
-        transition: width 1s ease-out;
+        transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         width: 0;
     }
-    .start-step-line.is-visible {
-        width: 100%;
-    }
-
+    .start-step-line.is-visible { width: 100%; }
 
     .chart-container { 
-        position: relative; 
-        width: 100%; 
-        max-width: 800px; 
-        margin-left: auto; 
-        margin-right: auto; 
-        height: 350px;
-        max-height: 450px; 
+        position: relative; width: 100%; max-width: 800px; 
+        margin: auto; height: 350px; max-height: 450px; 
     }
-    @media (min-width: 768px) { 
-        .chart-container { 
-            height: 400px; 
-        } 
+    @media (min-width: 768px) { .chart-container { height: 400px; } }
+    
+    #hero-canvas {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: -1;
     }
   </style>
 </head>
 
 <body class="antialiased">
 
-  <header id="header" class="bg-slate-50/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200">
+  <header id="header" class="bg-slate-900/60 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-700">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
-          <a href="#" class="text-2xl font-bold text-sky-600">मुंशी जी 📈</a>
+          <a href="#" class="text-2xl font-bold text-cyan-400">मुंशी जी 📈</a>
         </div>
-        <nav class="hidden md:flex space-x-8">
+        <nav class="hidden md:flex space-x-8 text-slate-300">
           <a href="#home" class="nav-link text-md font-medium">मुख्य पृष्ठ</a>
           <a href="#why-us" class="nav-link text-md font-medium">क्यों चुनें?</a>
           <a href="#features" class="nav-link text-md font-medium">विशेषताएं</a>
@@ -157,164 +163,164 @@
           <a href="#pricing" class="nav-link text-md font-medium">योजनाएं</a>
         </nav>
         <div class="hidden md:block">
-            <a href="#contact" class="inline-block bg-sky-500 text-white font-semibold px-5 py-2 rounded-lg shadow-md hover:bg-sky-600 transition-transform duration-300 hover:scale-105">संपर्क करें</a>
+            <a href="#contact" class="inline-block bg-cyan-500 text-white font-semibold px-5 py-2 rounded-lg shadow-lg shadow-cyan-500/30 hover:bg-cyan-600 transition-transform duration-300 hover:scale-105">संपर्क करें</a>
         </div>
         <div class="md:hidden">
-          <button id="mobile-menu-button" class="text-slate-800">
+          <button id="mobile-menu-button" class="text-slate-300">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
           </button>
         </div>
       </div>
     </div>
-     <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
-      <a href="#home" class="block py-3 px-4 text-base hover:bg-slate-100">मुख्य पृष्ठ</a>
-      <a href="#why-us" class="block py-3 px-4 text-base hover:bg-slate-100">क्यों चुनें?</a>
-      <a href="#features" class="block py-3 px-4 text-base hover:bg-slate-100">विशेषताएं</a>
-      <a href="#audience" class="block py-3 px-4 text-base hover:bg-slate-100">किसके लिए?</a>
-      <a href="#start" class="block py-3 px-4 text-base hover:bg-slate-100">शुरू करें</a>
-      <a href="#pricing" class="block py-3 px-4 text-base hover:bg-slate-100">योजनाएं</a>
-      <a href="#contact" class="block py-3 px-4 text-base hover:bg-slate-100">संपर्क करें</a>
+     <div id="mobile-menu" class="hidden md:hidden bg-slate-800 border-t border-slate-700">
+      <a href="#home" class="block py-3 px-4 text-base text-slate-300 hover:bg-slate-700">मुख्य पृष्ठ</a>
+      <a href="#why-us" class="block py-3 px-4 text-base text-slate-300 hover:bg-slate-700">क्यों चुनें?</a>
+      <a href="#features" class="block py-3 px-4 text-base text-slate-300 hover:bg-slate-700">विशेषताएं</a>
+      <a href="#audience" class="block py-3 px-4 text-base text-slate-300 hover:bg-slate-700">किसके लिए?</a>
+      <a href="#start" class="block py-3 px-4 text-base text-slate-300 hover:bg-slate-700">शुरू करें</a>
+      <a href="#pricing" class="block py-3 px-4 text-base text-slate-300 hover:bg-slate-700">योजनाएं</a>
+      <a href="#contact" class="block py-3 px-4 text-base text-slate-300 hover:bg-slate-700">संपर्क करें</a>
     </div>
   </header>
 
   <main>
     <section id="home" class="py-24 sm:py-32 lg:py-40 relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-br from-sky-50 via-white to-slate-50 -z-10"></div>
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight animate-on-scroll">
+        <canvas id="hero-canvas"></canvas>
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight animate-on-scroll text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-400">
           व्यापार को दें नई ऊंचाइयों की उड़ान
         </h1>
-        <p class="mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-slate-500 animate-on-scroll" style="transition-delay: 200ms;">
-          पेश है <span class="font-bold text-sky-600">मुंशी जी</span> - एक ऐसा डिजिटल प्लेटफॉर्म जो विशेष रूप से सब्जी, फल, डेयरी और बेकरी जैसे व्यवसायों के लिए हिसाब-किताब, लेन-देन और स्टॉक मैनेजमेंट को आसान बनाता है। 🍌🍓🥛🍞
+        <p class="mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-slate-400 animate-on-scroll" style="transition-delay: 200ms;">
+          पेश है <span class="font-bold text-cyan-400">मुंशी जी</span> - एक ऐसा डिजिटल प्लेटफॉर्म जो विशेष रूप से सब्जी, फल, डेयरी और बेकरी जैसे व्यवसायों के लिए हिसाब-किताब, लेन-देन और स्टॉक मैनेजमेंट को आसान बनाता है। 🍌🍓🥛🍞
         </p>
         <div class="mt-10 flex justify-center gap-4 animate-on-scroll" style="transition-delay: 400ms;">
-          <a href="#features" class="inline-block bg-sky-500 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-sky-600 transition-transform duration-300 hover:scale-105 text-lg">विशेषताएं देखें</a>
-          <a href="#start" class="inline-block bg-transparent border-2 border-slate-400 text-slate-600 font-semibold px-8 py-3 rounded-lg hover:bg-slate-400 hover:text-white transition-all duration-300 text-lg">शुरू करें</a>
+          <a href="#features" class="inline-block bg-cyan-500 text-white font-semibold px-8 py-3 rounded-lg shadow-lg shadow-cyan-500/30 hover:bg-cyan-600 transition-transform duration-300 hover:scale-105 text-lg">विशेषताएं देखें</a>
+          <a href="#start" class="inline-block bg-slate-700 border-2 border-slate-600 text-slate-300 font-semibold px-8 py-3 rounded-lg hover:bg-slate-600 hover:border-slate-500 transition-all duration-300 text-lg">शुरू करें</a>
         </div>
       </div>
     </section>
 
-    <section id="why-us" class="py-20 sm:py-24 bg-slate-100">
+    <section id="why-us" class="py-20 sm:py-24 bg-slate-900">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl sm:text-4xl font-bold animate-on-scroll">आपको मुंशी जी की आवश्यकता क्यों है? 🤔</h2>
-          <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500 animate-on-scroll" style="transition-delay: 100ms;">पुराने तरीकों को छोड़ें और डिजिटल प्रबंधन की शक्ति को अपनाएं।</p>
+          <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-400 animate-on-scroll" style="transition-delay: 100ms;">पुराने तरीकों को छोड़ें और डिजिटल प्रबंधन की शक्ति को अपनाएं।</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 animate-on-scroll">
-            <div class="text-5xl mb-4 text-sky-500">⏱️</div>
+          <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-2 transition-all duration-300 animate-on-scroll">
+            <div class="text-5xl mb-4">⏱️</div>
             <h3 class="text-xl font-bold mb-2">समय की बचत</h3>
             <p>स्वचालित बिलिंग और इन्वेंट्री ट्रैकिंग से आपका कीमती समय बचता है, जिसे आप व्यापार बढ़ाने में लगा सकते हैं।</p>
           </div>
-          <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 animate-on-scroll" style="transition-delay: 100ms;">
-            <div class="text-5xl mb-4 text-green-500">✔️</div>
+          <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-2 transition-all duration-300 animate-on-scroll" style="transition-delay: 100ms;">
+            <div class="text-5xl mb-4">✔️</div>
             <h3 class="text-xl font-bold mb-2">गलतियों से छुटकारा</h3>
             <p>डिजिटल सिस्टम होने के कारण हिसाब-किताब में मानवीय गलतियों की कोई गुंजाइश नहीं रहती, जिससे सटीकता बढ़ती है।</p>
           </div>
-          <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 animate-on-scroll" style="transition-delay: 200ms;">
-            <div class="text-5xl mb-4 text-blue-500">🎮</div>
+          <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-2 transition-all duration-300 animate-on-scroll" style="transition-delay: 200ms;">
+            <div class="text-5xl mb-4">🎮</div>
             <h3 class="text-xl font-bold mb-2">व्यापार पर बेहतर नियंत्रण</h3>
             <p>आप कभी भी, कहीं से भी अपने व्यापार की स्थिति, बिक्री और स्टॉक का पूरा विवरण देख सकते हैं।</p>
           </div>
-          <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 animate-on-scroll">
-            <div class="text-5xl mb-4 text-teal-500">🧾</div>
+          <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-2 transition-all duration-300 animate-on-scroll">
+            <div class="text-5xl mb-4">🧾</div>
             <h3 class="text-xl font-bold mb-2">तेज और आसान बिलिंग</h3>
             <p>कुछ ही क्लिक में पेशेवर जीएसटी या गैर-जीएसटी बिल बनाएं और तुरंत ग्राहक को व्हाट्सएप पर भेजें।</p>
           </div>
-          <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 animate-on-scroll" style="transition-delay: 100ms;">
-            <div class="text-5xl mb-4 text-amber-500">📦</div>
+          <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-2 transition-all duration-300 animate-on-scroll" style="transition-delay: 100ms;">
+            <div class="text-5xl mb-4">📦</div>
             <h3 class="text-xl font-bold mb-2">स्टॉक का सही प्रबंधन</h3>
             <p>हमेशा जानें कि आपके पास कितना स्टॉक है, कौन सा माल खत्म हो रहा है, और कब नया ऑर्डर करना है।</p>
           </div>
-          <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 animate-on-scroll" style="transition-delay: 200ms;">
-            <div class="text-5xl mb-4 text-indigo-500">👥</div>
+          <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-2 transition-all duration-300 animate-on-scroll" style="transition-delay: 200ms;">
+            <div class="text-5xl mb-4">👥</div>
             <h3 class="text-xl font-bold mb-2">ग्राहक और आपूर्तिकर्ता प्रबंधन</h3>
             <p>सभी के खातों का डिजिटल हिसाब-किताब आसानी से रखें और बकाया राशि को आसानी से ट्रैक करें।</p>
           </div>
         </div>
 
-        <div class="mt-20 bg-white p-6 rounded-2xl shadow-lg animate-on-scroll">
+        <div class="mt-20 glass-card p-6 rounded-2xl shadow-lg animate-on-scroll">
            <div class="chart-container">
                 <canvas id="efficiencyChart"></canvas>
             </div>
-            <p class="text-center mt-4 text-md text-slate-500">मुंशी जी के साथ व्यापार प्रबंधन में दक्षता का तुलनात्मक चार्ट।</p>
+            <p class="text-center mt-4 text-md text-slate-400">मुंशी जी के साथ व्यापार प्रबंधन में दक्षता का तुलनात्मक चार्ट।</p>
         </div>
       </div>
     </section>
 
-    <section id="features" class="py-20 sm:py-24">
+    <section id="features" class="py-20 sm:py-24 bg-slate-950">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl sm:text-4xl font-bold animate-on-scroll">हर समस्या का समाधान: मुंशी जी के फीचर्स 🌟</h2>
-          <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500 animate-on-scroll" style="transition-delay: 100ms;">जानें कि मुंशी जी आपके व्यापार की दैनिक चुनौतियों को कैसे आसान बनाता है।</p>
+          <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-400 animate-on-scroll" style="transition-delay: 100ms;">जानें कि मुंशी जी आपके व्यापार की दैनिक चुनौतियों को कैसे आसान बनाता है।</p>
         </div>
 
-        <div class="flex flex-col md:flex-row gap-8 lg:gap-12 bg-white rounded-2xl shadow-xl overflow-hidden animate-on-scroll">
-          <div class="w-full md:w-1/3 lg:w-1/4 border-b md:border-b-0 md:border-r border-slate-200">
+        <div class="flex flex-col md:flex-row gap-0 lg:gap-0 glass-card rounded-2xl shadow-2xl overflow-hidden animate-on-scroll">
+          <div class="w-full md:w-1/3 lg:w-1/4 border-b md:border-b-0 md:border-r border-slate-700">
             <div id="feature-tabs" class="feature-tab-container p-4 md:p-6 space-y-1">
               <div id="tab-indicator" class="tab-indicator"></div>
-              <button data-index="0" class="feature-tab active text-left w-full p-4 rounded-lg text-lg font-semibold flex items-center gap-3">🧾 <span>बिलिंग और इनवॉइस</span></button>
-              <button data-index="1" class="feature-tab text-left w-full p-4 rounded-lg text-lg font-semibold flex items-center gap-3">📦 <span>स्टॉक प्रबंधन</span></button>
-              <button data-index="2" class="feature-tab text-left w-full p-4 rounded-lg text-lg font-semibold flex items-center gap-3">📚 <span>डिजिटल खाता</span></button>
-              <button data-index="3" class="feature-tab text-left w-full p-4 rounded-lg text-lg font-semibold flex items-center gap-3">💳 <span>पेमेंट ट्रैकिंग</span></button>
-              <button data-index="4" class="feature-tab text-left w-full p-4 rounded-lg text-lg font-semibold flex items-center gap-3">📝 <span>एडजस्टमेंट नोट्स</span></button>
+              <button data-index="0" class="feature-tab active text-left w-full p-4 rounded-lg text-lg font-semibold flex items-center gap-3 text-slate-300">🧾 <span>बिलिंग और इनवॉइस</span></button>
+              <button data-index="1" class="feature-tab text-left w-full p-4 rounded-lg text-lg font-semibold flex items-center gap-3 text-slate-300">📦 <span>स्टॉक प्रबंधन</span></button>
+              <button data-index="2" class="feature-tab text-left w-full p-4 rounded-lg text-lg font-semibold flex items-center gap-3 text-slate-300">📚 <span>डिजिटल खाता</span></button>
+              <button data-index="3" class="feature-tab text-left w-full p-4 rounded-lg text-lg font-semibold flex items-center gap-3 text-slate-300">💳 <span>पेमेंट ट्रैकिंग</span></button>
+              <button data-index="4" class="feature-tab text-left w-full p-4 rounded-lg text-lg font-semibold flex items-center gap-3 text-slate-300">📝 <span>एडजस्टमेंट नोट्स</span></button>
             </div>
           </div>
           <div class="w-full md:w-2/3 lg:w-3/4 p-8 md:p-12 min-h-[500px]">
             <div id="tab-content-0" class="feature-content active">
-              <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg mb-6">
-                  <p class="font-semibold text-red-800">समस्या: "हाथ से बिल बनाने में बहुत समय लगता है, हिसाब में गलती हो जाती है और बिल पेशेवर भी नहीं लगते।"</p>
+              <div class="bg-red-900/30 border-l-4 border-red-500 p-4 rounded-r-lg mb-6">
+                  <p class="font-semibold text-red-300">समस्या: "हाथ से बिल बनाने में बहुत समय लगता है, हिसाब में गलती हो जाती है और बिल पेशेवर भी नहीं लगते।"</p>
               </div>
               <h3 class="text-2xl font-bold mb-4">मुंशी जी का समाधान: आसान और तेज बिलिंग सिस्टम</h3>
               <ul class="space-y-4 list-none text-base">
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">पेशेवर बिल बनाएं:</strong> कुछ ही क्लिक में जीएसटी या गैर-जीएसटी बिल बनाएं जो दिखने में सुंदर और पेशेवर हों।</div></li>
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">तुरंत साझा करें:</strong> बिल बनाने के तुरंत बाद उसे व्हाट्सएप पर पीडीएफ के रूप में अपने ग्राहक को भेजें, या प्रिंट करें।</div></li>
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">चालान और इनवॉइस:</strong> टैक्स इनवॉइस के साथ-साथ माल की डिलीवरी के लिए डिलीवरी चालान भी आसानी से बनाएं।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">पेशेवर बिल बनाएं:</strong> कुछ ही क्लिक में जीएसटी या गैर-जीएसटी बिल बनाएं जो दिखने में सुंदर और पेशेवर हों।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">तुरंत साझा करें:</strong> बिल बनाने के तुरंत बाद उसे व्हाट्सएप पर पीडीएफ के रूप में अपने ग्राहक को भेजें, या प्रिंट करें।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">चालान और इनवॉइस:</strong> टैक्स इनवॉइस के साथ-साथ माल की डिलीवरी के लिए डिलीवरी चालान भी आसानी से बनाएं।</div></li>
               </ul>
             </div>
             <div id="tab-content-1" class="feature-content">
-                <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg mb-6">
-                  <p class="font-semibold text-red-800">समस्या: "मुझे पता ही नहीं चलता कि दुकान में कितना माल बचा है। कभी माल खत्म हो जाता है तो ग्राहक लौट जाता है, कभी ज्यादा आ जाता है तो खराब हो जाता है।"</p>
+                <div class="bg-red-900/30 border-l-4 border-red-500 p-4 rounded-r-lg mb-6">
+                  <p class="font-semibold text-red-300">समस्या: "मुझे पता ही नहीं चलता कि दुकान में कितना माल बचा है। कभी माल खत्म हो जाता है तो ग्राहक लौट जाता है, कभी ज्यादा आ जाता है तो खराब हो जाता है।"</p>
               </div>
               <h3 class="text-2xl font-bold mb-4">मुंशी जी का समाधान: स्वचालित स्टॉक प्रबंधन</h3>
               <ul class="space-y-4 list-none text-base">
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">रियल-टाइम अपडेट:</strong> हर खरीद और बिक्री के साथ आपका स्टॉक अपने आप अपडेट हो जाता है। आपको हमेशा स्टॉक की सही जानकारी रहती है।</div></li>
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">कम स्टॉक की सूचना:</strong> जब कोई आइटम आपके निर्धारित स्तर से कम हो जाता है, तो मुंशी जी आपको तुरंत सूचित करता है, ताकि आप समय पर ऑर्डर कर सकें।</div></li>
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">बेहतर निर्णय:</strong> आप देख सकते हैं कि कौन सा उत्पाद सबसे ज्यादा बिक रहा है, जिससे आप अपनी खरीद की योजना बेहतर तरीके से बना सकते हैं और नुकसान से बच सकते हैं।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">रियल-टाइम अपडेट:</strong> हर खरीद और बिक्री के साथ आपका स्टॉक अपने आप अपडेट हो जाता है। आपको हमेशा स्टॉक की सही जानकारी रहती है।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">कम स्टॉक की सूचना:</strong> जब कोई आइटम आपके निर्धारित स्तर से कम हो जाता है, तो मुंशी जी आपको तुरंत सूचित करता है, ताकि आप समय पर ऑर्डर कर सकें।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">बेहतर निर्णय:</strong> आप देख सकते हैं कि कौन सा उत्पाद सबसे ज्यादा बिक रहा है, जिससे आप अपनी खरीद की योजना बेहतर तरीके से बना सकते हैं और नुकसान से बच सकते हैं।</div></li>
               </ul>
             </div>
             <div id="tab-content-2" class="feature-content">
-               <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg mb-6">
-                  <p class="font-semibold text-red-800">समस्या: "मेरी खाता बही में हिसाब रखना बहुत मुश्किल है। उधार का हिसाब भूल जाता हूँ और ग्राहकों के साथ अक्सर बहस हो जाती है।"</p>
+               <div class="bg-red-900/30 border-l-4 border-red-500 p-4 rounded-r-lg mb-6">
+                  <p class="font-semibold text-red-300">समस्या: "मेरी खाता बही में हिसाब रखना बहुत मुश्किल है। उधार का हिसाब भूल जाता हूँ और ग्राहकों के साथ अक्सर बहस हो जाती है।"</p>
               </div>
               <h3 class="text-2xl font-bold mb-4">मुंशी जी का समाधान: डिजिटल ग्राहक और सप्लायर खाता</h3>
               <ul class="space-y-4 list-none text-base">
-                 <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">स्वचालित लेजर:</strong> हर ग्राहक और आपूर्तिकर्ता का एक डिजिटल खाता अपने आप बन जाता है। हर बिल और भुगतान इसमें अपने आप दर्ज हो जाता है।</div></li>
-                 <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">उधार का सटीक हिसाब:</strong> आपको हमेशा पता रहता है कि किससे कितना पैसा लेना है और किसको कितना देना है। कोई भी लेन-देन छूटता नहीं है।</div></li>
-                 <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">विश्वास बढ़ाएं:</strong> आप किसी भी समय ग्राहक को उसके खाते का पूरा स्टेटमेंट व्हाट्सएप पर भेज सकते हैं, जिससे पारदर्शिता बनी रहती है और विवाद की कोई गुंजाइश नहीं रहती।</div></li>
+                 <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">स्वचालित लेजर:</strong> हर ग्राहक और आपूर्तिकर्ता का एक डिजिटल खाता अपने आप बन जाता है। हर बिल और भुगतान इसमें अपने आप दर्ज हो जाता है।</div></li>
+                 <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">उधार का सटीक हिसाब:</strong> आपको हमेशा पता रहता है कि किससे कितना पैसा लेना है और किसको कितना देना है। कोई भी लेन-देन छूटता नहीं है।</div></li>
+                 <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">विश्वास बढ़ाएं:</strong> आप किसी भी समय ग्राहक को उसके खाते का पूरा स्टेटमेंट व्हाट्सएप पर भेज सकते हैं, जिससे पारदर्शिता बनी रहती है और विवाद की कोई गुंजाइश नहीं रहती।</div></li>
               </ul>
             </div>
             <div id="tab-content-3" class="feature-content">
-              <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg mb-6">
-                  <p class="font-semibold text-red-800">समस्या: "दिन भर में नकद, UPI, बैंक ट्रांसफर से कई पेमेंट आते हैं। किसका पैसा आया, किसका बाकी है, यह ट्रैक करना बहुत सिरदर्द है।"</p>
+              <div class="bg-red-900/30 border-l-4 border-red-500 p-4 rounded-r-lg mb-6">
+                  <p class="font-semibold text-red-300">समस्या: "दिन भर में नकद, UPI, बैंक ट्रांसफर से कई पेमेंट आते हैं। किसका पैसा आया, किसका बाकी है, यह ट्रैक करना बहुत सिरदर्द है।"</p>
               </div>
               <h3 class="text-2xl font-bold mb-4">मुंशी जी का समाधान: स्मार्ट पेमेंट ट्रैकिंग</h3>
               <ul class="space-y-4 list-none text-base">
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">सभी भुगतान एक जगह:</strong> सभी प्रकार के भुगतानों को एक ही स्थान पर दर्ज करें और उन्हें संबंधित बिलों से लिंक करें।</div></li>
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">बकाया राशि की लाइव ट्रैकिंग:</strong> एक डैशबोर्ड पर देखें कि बाजार से कुल कितना पैसा लेना है और कौन-कौन से बिल बकाया हैं।</div></li>
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">चेक बाउंस प्रबंधन:</strong> यदि कोई चेक बाउंस होता है, तो उसे आसानी से रिकॉर्ड करें। यह राशि बैंक शुल्क के साथ ग्राहक के खाते में अपने आप जुड़ जाएगी।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">सभी भुगतान एक जगह:</strong> सभी प्रकार के भुगतानों को एक ही स्थान पर दर्ज करें और उन्हें संबंधित बिलों से लिंक करें।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">बकाया राशि की लाइव ट्रैकिंग:</strong> एक डैशबोर्ड पर देखें कि बाजार से कुल कितना पैसा लेना है और कौन-कौन से बिल बकाया हैं।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">चेक बाउंस प्रबंधन:</strong> यदि कोई चेक बाउंस होता है, तो उसे आसानी से रिकॉर्ड करें। यह राशि बैंक शुल्क के साथ ग्राहक के खाते में अपने आप जुड़ जाएगी।</div></li>
               </ul>
             </div>
             <div id="tab-content-4" class="feature-content">
-              <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg mb-6">
-                  <p class="font-semibold text-red-800">समस्या: "ग्राहक ने माल वापस कर दिया या किसी बिल में रेट का अंतर रह गया। अब इसका हिसाब कैसे एडजस्ट करूं, यह समझ नहीं आता।"</p>
+              <div class="bg-red-900/30 border-l-4 border-red-500 p-4 rounded-r-lg mb-6">
+                  <p class="font-semibold text-red-300">समस्या: "ग्राहक ने माल वापस कर दिया या किसी बिल में रेट का अंतर रह गया। अब इसका हिसाब कैसे एडजस्ट करूं, यह समझ नहीं आता।"</p>
               </div>
               <h3 class="text-2xl font-bold mb-4">मुंशी जी का समाधान: आसान एडजस्टमेंट नोट्स</h3>
               <ul class="space-y-4 list-none text-base">
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">क्रेडिट नोट बनाएं:</strong> माल वापसी, छूट या किसी अन्य कारण से ग्राहक के खाते में पैसे कम करने के लिए तुरंत क्रेडिट नोट बनाएं।</div></li>
-                <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">डेबिट नोट बनाएं:</strong> किसी अतिरिक्त शुल्क या अन्य कारणों से ग्राहक के खाते में पैसे जोड़ने के लिए डेबिट नोट बनाएं।</div></li>
-                 <li class="flex items-start"><span class="text-green-500 text-2xl mr-3">✓</span><div><strong class="text-slate-800">स्वचालित खाता अपडेट:</strong> ये सभी नोट्स अपने आप ग्राहक के लेजर में दर्ज हो जाते हैं, जिससे हिसाब हमेशा सटीक रहता है।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">क्रेडिट नोट बनाएं:</strong> माल वापसी, छूट या किसी अन्य कारण से ग्राहक के खाते में पैसे कम करने के लिए तुरंत क्रेडिट नोट बनाएं।</div></li>
+                <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">डेबिट नोट बनाएं:</strong> किसी अतिरिक्त शुल्क या अन्य कारणों से ग्राहक के खाते में पैसे जोड़ने के लिए डेबिट नोट बनाएं।</div></li>
+                 <li class="flex items-start"><span class="text-cyan-400 text-2xl mr-3">✓</span><div><strong class="text-slate-200">स्वचालित खाता अपडेट:</strong> ये सभी नोट्स अपने आप ग्राहक के लेजर में दर्ज हो जाते हैं, जिससे हिसाब हमेशा सटीक रहता है।</div></li>
               </ul>
             </div>
           </div>
@@ -322,26 +328,26 @@
       </div>
     </section>
 
-    <section id="audience" class="py-20 sm:py-24 bg-slate-100">
+    <section id="audience" class="py-20 sm:py-24 bg-slate-900">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl sm:text-4xl font-bold animate-on-scroll">मुंशी जी किसके लिए है? 🤔</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500 animate-on-scroll" style="transition-delay: 100ms;">छोटे और मध्यम आकार के व्यवसायों के लिए एक आदर्श समाधान।</p>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-400 animate-on-scroll" style="transition-delay: 100ms;">छोटे और मध्यम आकार के व्यवसायों के लिए एक आदर्श समाधान।</p>
             </div>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-sky-200 transition-shadow duration-300 animate-on-scroll">
+                <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 animate-on-scroll">
                     <div class="text-7xl mb-4 transition-transform duration-300 hover:scale-110">🥬</div>
                     <h3 class="text-xl font-bold">सब्जी और फल विक्रेता</h3>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-sky-200 transition-shadow duration-300 animate-on-scroll" style="transition-delay: 100ms;">
+                <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 animate-on-scroll" style="transition-delay: 100ms;">
                     <div class="text-7xl mb-4 transition-transform duration-300 hover:scale-110">🥛</div>
                     <h3 class="text-xl font-bold">डेयरी व्यवसाय</h3>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-sky-200 transition-shadow duration-300 animate-on-scroll" style="transition-delay: 200ms;">
+                <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 animate-on-scroll" style="transition-delay: 200ms;">
                     <div class="text-7xl mb-4 transition-transform duration-300 hover:scale-110">🍞</div>
                     <h3 class="text-xl font-bold">बेकरी और मिठाई की दुकानें</h3>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-sky-200 transition-shadow duration-300 animate-on-scroll" style="transition-delay: 300ms;">
+                <div class="glass-card p-8 rounded-2xl shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 animate-on-scroll" style="transition-delay: 300ms;">
                     <div class="text-7xl mb-4 transition-transform duration-300 hover:scale-110">🍎</div>
                     <h3 class="text-xl font-bold">किराना स्टोर</h3>
                 </div>
@@ -349,29 +355,29 @@
         </div>
     </section>
 
-    <section id="start" class="py-20 sm:py-24">
+    <section id="start" class="py-20 sm:py-24 bg-slate-950">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20">
                 <h2 class="text-3xl sm:text-4xl font-bold animate-on-scroll">मुंशी जी का उपयोग कैसे शुरू करें? 🚀</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500 animate-on-scroll" style="transition-delay: 100ms;">तीन सरल चरणों में अपने व्यवसाय को डिजिटल बनाएं।</p>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-400 animate-on-scroll" style="transition-delay: 100ms;">तीन सरल चरणों में अपने व्यवसाय को डिजिटल बनाएं।</p>
             </div>
             <div class="relative">
-                <div class="hidden md:block absolute top-10 left-0 w-full h-1 bg-slate-200">
-                    <div id="start-line" class="start-step-line h-1 bg-sky-500"></div>
+                <div class="hidden md:block absolute top-10 left-0 w-full h-1 bg-slate-700">
+                    <div id="start-line" class="start-step-line h-1 bg-cyan-400"></div>
                 </div>
                 <div class="relative grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
                     <div class="flex flex-col items-center animate-on-scroll">
-                        <div class="w-20 h-20 flex items-center justify-center bg-sky-500 text-white text-3xl font-bold rounded-full border-4 border-white shadow-lg mb-4">1</div>
+                        <div class="w-20 h-20 flex items-center justify-center bg-cyan-500 text-white text-3xl font-bold rounded-full border-4 border-slate-900 shadow-lg mb-4">1</div>
                         <h3 class="text-xl font-bold mb-2">पंजीकरण करें</h3>
                         <p>हमारी वेबसाइट पर जाएं और अपने व्यवसाय का विवरण देकर आसानी से पंजीकरण करें।</p>
                     </div>
                     <div class="flex flex-col items-center animate-on-scroll" style="transition-delay: 200ms;">
-                        <div class="w-20 h-20 flex items-center justify-center bg-sky-500 text-white text-3xl font-bold rounded-full border-4 border-white shadow-lg mb-4">2</div>
+                        <div class="w-20 h-20 flex items-center justify-center bg-cyan-500 text-white text-3xl font-bold rounded-full border-4 border-slate-900 shadow-lg mb-4">2</div>
                         <h3 class="text-xl font-bold mb-2">सेटअप करें</h3>
                         <p>अपने उत्पादों, ग्राहकों और आपूर्तिकर्ताओं की सूची को सिस्टम में जोड़ें।</p>
                     </div>
                     <div class="flex flex-col items-center animate-on-scroll" style="transition-delay: 400ms;">
-                        <div class="w-20 h-20 flex items-center justify-center bg-sky-500 text-white text-3xl font-bold rounded-full border-4 border-white shadow-lg mb-4">3</div>
+                        <div class="w-20 h-20 flex items-center justify-center bg-cyan-500 text-white text-3xl font-bold rounded-full border-4 border-slate-900 shadow-lg mb-4">3</div>
                         <h3 class="text-xl font-bold mb-2">उपयोग शुरू करें</h3>
                         <p>अब आप बिल बनाने, स्टॉक प्रबंधित करने और खातों को ट्रैक करने के लिए पूरी तरह तैयार हैं।</p>
                     </div>
@@ -380,72 +386,70 @@
         </div>
     </section>
     
-     <section id="pricing" class="py-20 sm:py-24 bg-slate-100">
+     <section id="pricing" class="py-20 sm:py-24 bg-slate-900">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl sm:text-4xl font-bold animate-on-scroll">आपके व्यापार के लिए सही योजना चुनें 💎</h2>
-          <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500 animate-on-scroll" style="transition-delay:100ms">सरल, पारदर्शी और शक्तिशाली योजनाएं जो आपके व्यवसाय के साथ बढ़ती हैं।</p>
+          <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-400 animate-on-scroll" style="transition-delay:100ms">सरल, पारदर्शी और शक्तिशाली योजनाएं जो आपके व्यवसाय के साथ बढ़ती हैं।</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           
-          <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-200 animate-on-scroll">
+          <div class="glass-card p-8 rounded-2xl shadow-lg animate-on-scroll">
             <h3 class="text-2xl font-bold text-center">Free Trial</h3>
-            <p class="text-center text-slate-500 mt-2">सभी फीचर्स को आजमाएं</p>
-            <p class="text-center text-5xl font-bold my-6">₹0 <span class="text-lg font-medium text-slate-500">/ 3 दिन</span></p>
+            <p class="text-center text-slate-400 mt-2">सभी फीचर्स को आजमाएं</p>
+            <p class="text-center text-5xl font-bold my-6">₹0 <span class="text-lg font-medium text-slate-400">/ 3 दिन</span></p>
             <ul class="space-y-4 mb-8">
-              <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> अनलिमिटेड इनवॉइस और चालान</li>
-              <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> ग्राहक खाता (लेजर)</li>
-              <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> स्टॉक प्रबंधन</li>
-              <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> पेमेंट ट्रैकिंग</li>
-              <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> व्हाट्सएप/ईमेल सपोर्ट</li>
+              <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> अनलिमिटेड इनवॉइस और चालान</li>
+              <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> ग्राहक खाता (लेजर)</li>
+              <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> स्टॉक प्रबंधन</li>
+              <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> पेमेंट ट्रैकिंग</li>
+              <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> व्हाट्सएप/ईमेल सपोर्ट</li>
             </ul>
-            <a href="#contact" class="block w-full text-center bg-slate-200 text-slate-800 font-semibold py-3 rounded-lg hover:bg-slate-300 transition-colors">परीक्षण शुरू करें</a>
+            <a href="#contact" class="block w-full text-center bg-slate-700 text-white font-semibold py-3 rounded-lg hover:bg-slate-600 transition-colors">परीक्षण शुरू करें</a>
           </div>
 
-          <div class="bg-white p-8 rounded-2xl shadow-2xl border-2 border-sky-500 relative animate-on-scroll" style="transition-delay:100ms; transform: scale(1.05);">
-            <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-sky-500 text-white text-sm font-semibold px-4 py-1 rounded-full">सबसे लोकप्रिय</div>
-            <h3 class="text-2xl font-bold text-center text-sky-600">3-Month Plan</h3>
-            <p class="text-center text-slate-500 mt-2">प्रीमियम फीचर्स के साथ</p>
-            <p class="text-center text-5xl font-bold my-6 text-sky-600">₹2,499 <span class="text-lg font-medium text-slate-500">/ 3 महीने</span></p>
+          <div class="glass-card p-8 rounded-2xl shadow-2xl pricing-card-popular animate-on-scroll" style="transition-delay:100ms; transform: scale(1.05);">
+            <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-cyan-400 text-slate-900 text-sm font-semibold px-4 py-1 rounded-full">सबसे लोकप्रिय</div>
+            <h3 class="text-2xl font-bold text-center text-cyan-400">3-Month Plan</h3>
+            <p class="text-center text-slate-400 mt-2">प्रीमियम फीचर्स के साथ</p>
+            <p class="text-center text-5xl font-bold my-6 text-cyan-400">₹2,499 <span class="text-lg font-medium text-slate-400">/ 3 महीने</span></p>
             <ul class="space-y-4 mb-8">
-              <li class="flex items-center"><span class="text-green-500 font-bold mr-3">✓</span> <strong>सभी मासिक फीचर्स +</strong></li>
-              <li class="flex items-center"><span class="text-green-500 font-bold mr-3">✓</span> इनवॉइस पर आपका लोगो</li>
-              <li class="flex items-center"><span class="text-green-500 font-bold mr-3">✓</span> कस्टम संपर्क जानकारी</li>
-              <li class="flex items-center"><span class="text-green-500 font-bold mr-3">✓</span> पेमेंट के लिए QR कोड</li>
-              <li class="flex items-center"><span class="text-green-500 font-bold mr-3">✓</span> निःशुल्क सेटअप + ऑनबोर्डिंग कॉल</li>
+              <li class="flex items-center"><span class="text-green-400 font-bold mr-3">✓</span> <strong>सभी मासिक फीचर्स +</strong></li>
+              <li class="flex items-center"><span class="text-green-400 font-bold mr-3">✓</span> इनवॉइस पर आपका लोगो</li>
+              <li class="flex items-center"><span class="text-green-400 font-bold mr-3">✓</span> कस्टम संपर्क जानकारी</li>
+              <li class="flex items-center"><span class="text-green-400 font-bold mr-3">✓</span> पेमेंट के लिए QR कोड</li>
+              <li class="flex items-center"><span class="text-green-400 font-bold mr-3">✓</span> निःशुल्क सेटअप + ऑनबोर्डिंग कॉल</li>
             </ul>
-            <a href="https://rzp.io/rzp/3-Month-Plan-MunshiJi" target="_blank" class="block w-full text-center bg-sky-500 text-white font-semibold py-3 rounded-lg hover:bg-sky-600 transition-colors">अभी खरीदें</a>
+            <a href="https://rzp.io/rzp/3-Month-Plan-MunshiJi" target="_blank" class="block w-full text-center bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition-colors shadow-lg shadow-cyan-500/30">अभी खरीदें</a>
           </div>
           
-          <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-200 animate-on-scroll" style="transition-delay:200ms;">
+          <div class="glass-card p-8 rounded-2xl shadow-lg animate-on-scroll" style="transition-delay:200ms;">
             <h3 class="text-2xl font-bold text-center">Monthly Plan</h3>
-            <p class="text-center text-slate-500 mt-2">पेशेवर व्यवसायों के लिए</p>
-            <p class="text-center text-5xl font-bold my-6">₹999 <span class="text-lg font-medium text-slate-500">/ महीना</span></p>
+            <p class="text-center text-slate-400 mt-2">पेशेवर व्यवसायों के लिए</p>
+            <p class="text-center text-5xl font-bold my-6">₹999 <span class="text-lg font-medium text-slate-400">/ महीना</span></p>
             <ul class="space-y-4 mb-8">
-              <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> <strong>सभी ट्रायल फीचर्स +</strong></li>
-              <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> असीमित उपयोग</li>
-              <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> प्राथमिकता सपोर्ट (कॉल/व्हाट्सएप)</li>
-              <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> नियमित सॉफ्टवेयर अपडेट</li>
-              <li class="flex items-center"><span class="text-green-500 mr-3">✓</span> डेटा बैकअप और सुरक्षा</li>
+              <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> <strong>सभी ट्रायल फीचर्स +</strong></li>
+              <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> असीमित उपयोग</li>
+              <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> प्राथमिकता सपोर्ट (कॉल/व्हाट्सएप)</li>
+              <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> नियमित सॉफ्टवेयर अपडेट</li>
+              <li class="flex items-center"><span class="text-green-400 mr-3">✓</span> डेटा बैकअप और सुरक्षा</li>
             </ul>
-            <a href="https://rzp.io/rzp/Monthly-Plan-MunsiJi" target="_blank" class="block w-full text-center bg-slate-200 text-slate-800 font-semibold py-3 rounded-lg hover:bg-slate-300 transition-colors">अभी खरीदें</a>
+            <a href="https://rzp.io/rzp/Monthly-Plan-MunsiJi" target="_blank" class="block w-full text-center bg-slate-700 text-white font-semibold py-3 rounded-lg hover:bg-slate-600 transition-colors">अभी खरीदें</a>
           </div>
 
         </div>
       </div>
     </section>
 
-    <section id="contact" class="py-20 sm:py-24">
+    <section id="contact" class="py-20 sm:py-24 bg-slate-950">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-3xl mx-auto text-center bg-slate-800 text-white p-10 md:p-16 rounded-2xl shadow-2xl animate-on-scroll relative overflow-hidden">
-                 <div class="absolute -top-10 -right-10 w-40 h-40 bg-sky-500/20 rounded-full filter blur-3xl"></div>
-                 <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-green-500/20 rounded-full filter blur-3xl"></div>
+            <div class="max-w-3xl mx-auto text-center glass-card p-10 md:p-16 rounded-2xl shadow-2xl animate-on-scroll relative overflow-hidden">
                  <h2 class="text-3xl sm:text-4xl font-bold relative z-10">क्या आप तैयार हैं?</h2>
                  <p class="mt-4 text-lg text-slate-300 relative z-10">अपने व्यापार को एक नई दिशा देने के लिए आज ही मुंशी जी का ३-दिवसीय निःशुल्क परीक्षण (Free Trial) शुरू करें!</p>
                  <div class="mt-8 flex justify-center gap-4 flex-wrap relative z-10">
-                    <a href="#" class="inline-block bg-sky-500 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-sky-600 transition-transform duration-300 hover:scale-105">📞 हमसे संपर्क करें</a>
-                    <a href="#" class="inline-block bg-green-500 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-green-600 transition-transform duration-300 hover:scale-105">💬 व्हाट्सएप पर चैट करें</a>
+                    <a href="#" class="inline-block bg-cyan-500 text-white font-semibold px-6 py-3 rounded-lg shadow-md shadow-cyan-500/30 hover:bg-cyan-600 transition-transform duration-300 hover:scale-105">📞 हमसे संपर्क करें</a>
+                    <a href="#" class="inline-block bg-green-500 text-white font-semibold px-6 py-3 rounded-lg shadow-md shadow-green-500/30 hover:bg-green-600 transition-transform duration-300 hover:scale-105">💬 व्हाट्सएप पर चैट करें</a>
                  </div>
             </div>
         </div>
@@ -453,19 +457,100 @@
 
   </main>
   
-  <footer class="bg-slate-800 text-slate-400">
+  <footer class="bg-slate-950 text-slate-400 border-t border-slate-800">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
           <p>&copy; 2025 मुंशी जी. सर्वाधिकार सुरक्षित।</p>
           <div class="flex justify-center space-x-6 mt-4">
-              <a href="#" class="hover:text-sky-400 transition-colors">फेसबुक</a>
-              <a href="#" class="hover:text-sky-400 transition-colors">ट्विटर</a>
-              <a href="#" class="hover:text-sky-400 transition-colors">इंस्टाग्राम</a>
+              <a href="#" class="hover:text-cyan-400 transition-colors">फेसबुक</a>
+              <a href="#" class="hover:text-cyan-400 transition-colors">ट्विटर</a>
+              <a href="#" class="hover:text-cyan-400 transition-colors">इंस्टाग्राम</a>
           </div>
       </div>
   </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      const initCanvasAnimation = () => {
+        const canvas = document.getElementById('hero-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const numParticles = 100;
+
+        const setCanvasSize = () => {
+          canvas.width = canvas.offsetWidth;
+          canvas.height = canvas.offsetHeight;
+        };
+
+        class Particle {
+          constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = Math.random() * 0.5 - 0.25;
+            this.vy = Math.random() * 0.5 - 0.25;
+            this.radius = Math.random() * 1.5 + 0.5;
+          }
+          update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(34, 211, 238, 0.5)'; // Cyan
+            ctx.fill();
+          }
+        }
+
+        const createParticles = () => {
+          particles = [];
+          for (let i = 0; i < numParticles; i++) {
+            particles.push(new Particle());
+          }
+        };
+
+        const connectParticles = () => {
+          for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+              const dx = particles[i].x - particles[j].x;
+              const dy = particles[i].y - particles[j].y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              if (distance < 120) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = `rgba(100, 116, 139, ${1 - distance / 120})`; // Slate
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+              }
+            }
+          }
+        };
+
+        const animate = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach(p => {
+            p.update();
+            p.draw();
+          });
+          connectParticles();
+          requestAnimationFrame(animate);
+        };
+        
+        setCanvasSize();
+        createParticles();
+        animate();
+
+        window.addEventListener('resize', () => {
+            setCanvasSize();
+            createParticles();
+        });
+      };
+      
+      initCanvasAnimation();
+
       const featureTabsContainer = document.getElementById('feature-tabs');
       const featureTabs = featureTabsContainer.querySelectorAll('.feature-tab');
       const tabIndicator = document.getElementById('tab-indicator');
@@ -482,14 +567,10 @@
       featureTabsContainer.addEventListener('click', function(e) {
         const clickedTab = e.target.closest('button.feature-tab');
         if (!clickedTab) return;
-
         const activeIndex = parseInt(clickedTab.dataset.index);
-
         featureTabs.forEach(tab => tab.classList.remove('active'));
         clickedTab.classList.add('active');
-        
         setIndicatorPosition(activeIndex);
-
         featureContents.forEach(content => content.classList.remove('active'));
         document.getElementById(`tab-content-${activeIndex}`).classList.add('active');
       });
@@ -508,7 +589,6 @@
           }
       });
 
-
       const efficiencyChartCtx = document.getElementById('efficiencyChart').getContext('2d');
       new Chart(efficiencyChartCtx, {
         type: 'bar',
@@ -517,14 +597,14 @@
           datasets: [{
             label: 'मैनुअल काम',
             data: [4, 15, 20],
-            backgroundColor: 'rgba(239, 68, 68, 0.8)', // Red 500
+            backgroundColor: 'rgba(239, 68, 68, 0.7)',
             borderColor: 'rgba(239, 68, 68, 1)',
             borderWidth: 1,
             borderRadius: 5,
           }, {
             label: 'मुंशी जी के साथ',
             data: [0.5, 1, 80],
-            backgroundColor: 'rgba(34, 197, 94, 0.8)', // Green 500
+            backgroundColor: 'rgba(34, 197, 94, 0.7)',
             borderColor: 'rgba(34, 197, 94, 1)',
             borderWidth: 1,
             borderRadius: 5,
@@ -539,14 +619,14 @@
               position: 'bottom',
               labels: {
                 font: { family: "'Inter', sans-serif", size: 14 },
-                color: '#475569'
+                color: '#94a3b8'
               }
             },
             title: {
               display: true,
               text: 'मैनुअल काम बनाम मुंशी जी: एक तुलना',
               font: { family: "'Tiro Devanagari Hindi', serif", size: 20, weight: 'bold' },
-              color: '#0f172a',
+              color: '#f1f5f9',
               padding: { bottom: 20 }
             },
             tooltip: {
@@ -569,15 +649,13 @@
               beginAtZero: true,
               max: 100,
               ticks: {
-                 callback: function(value) {
-                        return value + '%';
-                    },
-                 color: '#475569'
+                 callback: function(value) { return value + '%'; },
+                 color: '#94a3b8'
               },
-              grid: { color: '#e2e8f0' }
+              grid: { color: '#334155' }
             },
             y: {
-               ticks: { color: '#475569', font: { size: 14 } },
+               ticks: { color: '#cbd5e1', font: { size: 14 } },
               grid: { display: false }
             }
           }
@@ -589,8 +667,6 @@
         const allNavLinks = [...navLinks, ...mobileNavLinks];
         const sections = document.querySelectorAll('main section');
 
-        const observerOptions = { rootMargin: '-50% 0px -50% 0px' };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -600,11 +676,9 @@
                     });
                 }
             });
-        }, observerOptions);
+        }, { rootMargin: '-50% 0px -50% 0px' });
 
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+        sections.forEach(section => { observer.observe(section); });
 
         const animationObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -613,7 +687,7 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.15 });
 
         document.querySelectorAll('.animate-on-scroll, .start-step-line').forEach(el => {
             animationObserver.observe(el);
